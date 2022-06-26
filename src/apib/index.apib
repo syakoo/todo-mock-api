@@ -1,0 +1,84 @@
+FORMAT: 1A
+HOST: /api
+
+# Todo Mock API
+
+Todo アプリのモック API のドキュメントです。
+かなり変更される可能性があるため、バージョンを確認してください。
+
+# Group ユーザー認証
+
+## 登録 [/users]
+
+### 登録 [POST]
++ Request (application/json)
+    + Body
+
+            {
+                "email": "hogehoge@hogehoge.com",
+                "password": "SuperSecretPassword"
+            }
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "message": "User registration completed"
+            }
+
+## ログイン [/users/login]
+
+### ログイン [POST]
+認証用のトークンを発行する
+
++ Request (application/json)
+    + Body
+
+            {
+                "email": "hogehoge@hogehoge.com",
+                "password": "SuperSecretPassword"
+            }
+
++ Response 200 (application/json)
+    + Body 
+
+            {
+                "token": "{token}"
+            }
+
+# Group タスク
+
+## 一覧取得 [/tasks{?sort}]
+
+### 一覧取得 [GET]
++ Parameters
+    + sort: limit (string, optional) - ソートキー(created_at, category, limit)
+        + Default: `created_at`
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        [
+            {
+                "id": "asgsngasasdfkjasdfas",
+                "title": "SampleTask",
+                "category": "SampleCategory",
+                "limit": "2022/06/26",
+                "detail": "SampleDetail",
+                "created_at": "2022-06-26T07:55:21.109Z"
+            },
+            {
+                "id": "ASdfjasdfasdflkAsdfj",
+                "title": "SampleTask2",
+                "category": "SampleCategory2",
+                "limit": "2022/6/28",
+                "created_at": "2022-06-27T08:20:11.109Z"
+            }
+        ]
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
