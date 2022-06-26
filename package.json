@@ -2,10 +2,20 @@
   "name": "todo-browser-mock-api",
   "version": "0.0.1",
   "description": "TodoApp Mock API for Browser",
-  "main": "index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "lint-fix": "eslint --cache --fix src/"
+    "lint-fix": "eslint --cache --fix src/",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c"
   },
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
   "keywords": [],
   "author": "syakoo",
   "license": "MIT",
@@ -23,5 +33,8 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.75.7",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "msw": "^0.42.3"
   }
 }
