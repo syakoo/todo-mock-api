@@ -1,5 +1,9 @@
 import { setupWorker } from 'msw';
 
-import { handlers } from './handlers';
+import { restHandlers } from './handlers/rest';
 
-export const worker = setupWorker(...handlers);
+export const startWorker = () => {
+  const worker = setupWorker(...restHandlers);
+
+  worker.start();
+};
