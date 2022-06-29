@@ -1,6 +1,6 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
-import { DBState, WithDBStateReadonlyInput } from '../types';
+import { GlobalState, WithDBStateReadonlyInput } from '../types';
 import { HttpError } from '../../utils/httpError';
 
 interface RegisterUserInput {
@@ -10,7 +10,7 @@ interface RegisterUserInput {
 
 export function registerUser(
   props: WithDBStateReadonlyInput<RegisterUserInput>
-): DBState {
+): GlobalState {
   const { input, state } = props;
   const newState = deepCopyWithWriteable(state);
 

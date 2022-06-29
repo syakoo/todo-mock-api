@@ -3,9 +3,9 @@ import { rest } from 'msw';
 import * as user from '~/core/user';
 
 import { HttpError } from '../utils/httpError';
-import { DBState } from '../core/types';
+import { GlobalState } from '../core/types';
 
-let state: DBState = { users: [], tasks: [] };
+let state: GlobalState = { users: [], tasks: [] };
 
 export const restHandlers = [
   rest.get('/api/user', (req, res, ctx) => {

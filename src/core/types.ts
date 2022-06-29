@@ -2,14 +2,14 @@ import { DeepReadonly } from '~/utils/types';
 
 import { UserState } from './user/types';
 
-export interface DBState {
+export interface GlobalState {
   users: UserState[];
   tasks: [];
 }
 
 export type WithDBStateInput<T> = {
   input: T;
-  state: DBState;
+  state: GlobalState;
 };
 
 export type WithDBStateReadonlyInput<T> = DeepReadonly<WithDBStateInput<T>>;
