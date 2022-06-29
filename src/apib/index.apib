@@ -15,7 +15,7 @@ Todo アプリのモック API のドキュメントです。
     + Body
 
             {
-                "email": "hogehoge@hogehoge.com",
+                "user": "admin",
                 "password": "SuperSecretPassword"
             }
 
@@ -35,7 +35,7 @@ Todo アプリのモック API のドキュメントです。
     + Body
 
             {
-                "email": "hogehoge@hogehoge.com",
+                "email": "admin",
                 "password": "SuperSecretPassword"
             }
 
@@ -48,12 +48,9 @@ Todo アプリのモック API のドキュメントです。
 
 # Group タスク
 
-## 一覧取得 [/tasks{?sort}]
+## 一覧 [/tasks]
 
 ### 一覧取得 [GET]
-+ Parameters
-    + sort: limit (string, optional) - ソートキー(created_at, category, limit)
-        + Default: `created_at`
 + Request
     + Headers
 
@@ -65,16 +62,14 @@ Todo アプリのモック API のドキュメントです。
             {
                 "id": "asgsngasasdfkjasdfas",
                 "title": "SampleTask",
-                "category": "SampleCategory",
-                "limit": "2022/06/26",
                 "detail": "SampleDetail",
+                "is_complete": false,
                 "created_at": "2022-06-26T07:55:21.109Z"
             },
             {
                 "id": "ASdfjasdfasdflkAsdfj",
                 "title": "SampleTask2",
-                "category": "SampleCategory2",
-                "limit": "2022/6/28",
+                "is_complete": false,
                 "created_at": "2022-06-27T08:20:11.109Z"
             }
         ]
@@ -82,3 +77,164 @@ Todo アプリのモック API のドキュメントです。
 + Response 401 (application/json)
 
             { "error": "Unauthorized" }
+
+### 登録 [POST]
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {token}
+    + Body
+
+            {
+                "title": "SampleTask",
+                "detail": "SampleDetail",
+            }
+
++ Response 200 (application/json)
+
+        {
+            "id": "asgsngasasdfkjasdfas",
+            "title": "SampleTask",
+            "detail": "SampleDetail",
+            "is_complete": false,
+            "created_at": "2022-06-26T07:55:21.109Z"
+        },
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
+
+## 個別 [/tasks/{id}]
+
+### 取得 [GET]
++ Parameters
+    + id: asgsngasasdfkjasdfas (string) - タスク ID
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        {
+            "id": "asgsngasasdfkjasdfas",
+            "title": "SampleTask",
+            "detail": "SampleDetail",
+            "is_complete": false,
+            "created_at": "2022-06-26T07:55:21.109Z"
+        },
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
+
++ Response 404 (application/json)
+
+            { "error": "Not Found" }
+
+### 更新 [PATCH]
++ Parameters
+    + id: asgsngasasdfkjasdfas (string) - タスク ID
++ Request (application/json)
+    + Headers
+
+            Authorization: Bearer {token}
+    + Body
+
+            {
+                "title": "SampleHogeTask",
+                "detail": "SampleDetail",
+            }
+
++ Response 200 (application/json)
+
+        {
+            "id": "asgsngasasdfkjasdfas",
+            "title": "SampleHogeTask",
+            "detail": "SampleDetail",
+            "is_complete": false,
+            "created_at": "2022-06-26T07:55:21.109Z"
+        },
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
+
++ Response 404 (application/json)
+
+            { "error": "Not Found" }
+
+### 削除 [DELETE]
++ Parameters
+    + id: asgsngasasdfkjasdfas (string) - タスク ID
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        {
+            "message": "Successfully deleted"
+        }
++ Response 401 (application/json)
+
+        { "error": "Unauthorized" }
+
++ Response 404 (application/json)
+
+            { "error": "Not Found" }
+
+## タスク完了 [/tasks/{id}/completion]
+
+### 完了 [PUT]
++ Parameters
+    + id: asgsngasasdfkjasdfas (string) - タスク ID
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        {
+            "id": "asgsngasasdfkjasdfas",
+            "title": "SampleHogeTask",
+            "detail": "SampleDetail",
+            "is_complete": true,
+            "created_at": "2022-06-26T07:55:21.109Z"
+        },
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
+
++ Response 404 (application/json)
+
+            { "error": "Not Found" }
+
+### 完了取り消し [DELETE]
++ Parameters
+    + id: asgsngasasdfkjasdfas (string) - タスク ID
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        {
+            "id": "asgsngasasdfkjasdfas",
+            "title": "SampleHogeTask",
+            "detail": "SampleDetail",
+            "is_complete": false,
+            "created_at": "2022-06-26T07:55:21.109Z"
+        },
+
++ Response 401 (application/json)
+
+            { "error": "Unauthorized" }
+
++ Response 404 (application/json)
+
+            { "error": "Not Found" }
