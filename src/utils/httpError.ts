@@ -9,4 +9,11 @@ export class HttpError extends Error {
     this.code = code;
     this.message = message;
   }
+
+  toJson() {
+    return {
+      code: this.code,
+      message: this.message,
+    };
+  }
 }
