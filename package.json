@@ -1,7 +1,7 @@
 {
-  "name": "todo-browser-mock-api",
+  "name": "todo-mock-api",
   "version": "0.0.1",
-  "description": "TodoApp Mock API for Browser",
+  "description": "TodoApp Mock API",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",
