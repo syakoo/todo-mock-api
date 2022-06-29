@@ -8,23 +8,33 @@ Todo アプリのモック API のドキュメントです。
 
 # Group ユーザー認証
 
-## 登録 [/users]
+## 登録 [/users/register]
 
 ### 登録 [POST]
 + Request (application/json)
     + Body
 
             {
-                "user": "admin",
-                "password": "SuperSecretPassword"
+                "user": "string",
+                "password": "string"
             }
 
 + Response 200 (application/json)
     + Body
 
             {
-                "message": "User registration completed"
+                "success": true,
             }
+
++ Response 409 (application/json)
+    既に登録されている場合
+    + Body
+
+            { 
+                "code": "409",
+                "message": "string"
+            }
+
 
 ## ログイン [/users/login]
 
@@ -35,16 +45,48 @@ Todo アプリのモック API のドキュメントです。
     + Body
 
             {
-                "email": "admin",
-                "password": "SuperSecretPassword"
+                "user": "string",
+                "password": "string"
             }
 
 + Response 200 (application/json)
     + Body 
 
             {
-                "token": "{token}"
+                "success": true,
+                "token": "string"
             }
+
++ Response 401 (application/json)
+    認証失敗時
+    + Body 
+
+            { 
+                "code": "401",
+                "message": "string"
+            }
+
+
+## ログアウト [/users/logout]
+
+### ログアウト [POST]
++ Request
+    + Headers
+
+            Authorization: Bearer {token}
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+        }
+
++ Response 401 (application/json)
+
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 # Group タスク
 
@@ -60,23 +102,26 @@ Todo アプリのモック API のドキュメントです。
 
         [
             {
-                "id": "asgsngasasdfkjasdfas",
-                "title": "SampleTask",
-                "detail": "SampleDetail",
+                "id": "string",
+                "title": "string",
+                "detail": "string",
                 "is_complete": false,
-                "created_at": "2022-06-26T07:55:21.109Z"
+                "created_at": "2000-12-31T23:59:59+09:00"
             },
             {
-                "id": "ASdfjasdfasdflkAsdfj",
-                "title": "SampleTask2",
+                "id": "string",
+                "title": "string",
                 "is_complete": false,
-                "created_at": "2022-06-27T08:20:11.109Z"
+                "created_at": "2000-12-31T23:59:59+09:00"
             }
         ]
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 ### 登録 [POST]
 + Request (application/json)
@@ -93,16 +138,19 @@ Todo アプリのモック API のドキュメントです。
 + Response 200 (application/json)
 
         {
-            "id": "asgsngasasdfkjasdfas",
-            "title": "SampleTask",
-            "detail": "SampleDetail",
+            "id": "string",
+            "title": "string",
+            "detail": "string",
             "is_complete": false,
-            "created_at": "2022-06-26T07:55:21.109Z"
+            "created_at": "2000-12-31T23:59:59+09:00"
         },
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 ## 個別 [/tasks/{id}]
 
@@ -115,22 +163,28 @@ Todo アプリのモック API のドキュメントです。
             Authorization: Bearer {token}
 
 + Response 200 (application/json)
-
+    
         {
-            "id": "asgsngasasdfkjasdfas",
-            "title": "SampleTask",
-            "detail": "SampleDetail",
+            "id": "string",
+            "title": "string",
+            "detail": "string",
             "is_complete": false,
-            "created_at": "2022-06-26T07:55:21.109Z"
+            "created_at": "2000-12-31T23:59:59+09:00"
         },
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 + Response 404 (application/json)
 
-            { "error": "Not Found" }
+        { 
+            "code": "404",
+            "message": "string"
+        }
 
 ### 更新 [PATCH]
 + Parameters
@@ -149,20 +203,26 @@ Todo アプリのモック API のドキュメントです。
 + Response 200 (application/json)
 
         {
-            "id": "asgsngasasdfkjasdfas",
-            "title": "SampleHogeTask",
-            "detail": "SampleDetail",
+            "id": "string",
+            "title": "string",
+            "detail": "string",
             "is_complete": false,
-            "created_at": "2022-06-26T07:55:21.109Z"
+            "created_at": "2000-12-31T23:59:59+09:00"
         },
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 + Response 404 (application/json)
 
-            { "error": "Not Found" }
+        { 
+            "code": "404",
+            "message": "string"
+        }
 
 ### 削除 [DELETE]
 + Parameters
@@ -179,12 +239,14 @@ Todo アプリのモック API のドキュメントです。
         }
 + Response 401 (application/json)
 
-        { "error": "Unauthorized" }
+        { "error": "string" }
 
 + Response 404 (application/json)
 
-            { "error": "Not Found" }
-
+        { 
+            "code": "404",
+            "message": "string"
+        }
 ## タスク完了 [/tasks/{id}/completion]
 
 ### 完了 [PUT]
@@ -198,20 +260,26 @@ Todo アプリのモック API のドキュメントです。
 + Response 200 (application/json)
 
         {
-            "id": "asgsngasasdfkjasdfas",
-            "title": "SampleHogeTask",
-            "detail": "SampleDetail",
+            "id": "string",
+            "title": "string",
+            "detail": "string",
             "is_complete": true,
-            "created_at": "2022-06-26T07:55:21.109Z"
+            "created_at": "2000-12-31T23:59:59+09:00"
         },
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 + Response 404 (application/json)
 
-            { "error": "Not Found" }
+        { 
+            "code": "404",
+            "message": "string"
+        }
 
 ### 完了取り消し [DELETE]
 + Parameters
@@ -224,17 +292,24 @@ Todo アプリのモック API のドキュメントです。
 + Response 200 (application/json)
 
         {
-            "id": "asgsngasasdfkjasdfas",
-            "title": "SampleHogeTask",
-            "detail": "SampleDetail",
+            "id": "string",
+            "title": "string",
+            "detail": "string",
             "is_complete": false,
-            "created_at": "2022-06-26T07:55:21.109Z"
+            "created_at": "2000-12-31T23:59:59+09:00"
         },
 
 + Response 401 (application/json)
 
-            { "error": "Unauthorized" }
+        { 
+            "code": "401",
+            "message": "string"
+        }
 
 + Response 404 (application/json)
 
-            { "error": "Not Found" }
+        { 
+            "code": "404",
+            "message": "string"
+        }
+            
