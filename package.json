@@ -1,26 +1,15 @@
 {
-  "name": "todo-mock-api",
+  "name": "todo-mock-api-monorepo",
   "version": "0.0.1",
   "description": "TodoApp Mock API",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/types/index.d.ts",
-  "scripts": {
-    "lint-fix": "eslint --cache --fix src/",
-    "prebuild": "rimraf dist",
-    "build": "rollup -c",
-    "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
-    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s"
-  },
-  "files": [
-    "package.json",
-    "README.md",
-    "LICENSE",
-    "dist"
-  ],
-  "keywords": [],
   "author": "syakoo",
-  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow npm",
+    "lint-fix": "eslint --cache --fix packages/*/**",
+    "build": "npm run -ws build"
+  },
+  "keywords": [],
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.3",
     "@types/node": "^18.0.0",
@@ -37,7 +26,8 @@
     "rollup": "^2.75.7",
     "typescript": "^4.7.4"
   },
-  "dependencies": {
-    "msw": "^0.42.3"
-  }
+  "workspaces": [
+    "packages/todo-mock-api",
+    "playground/vite-react-ts"
+  ]
 }

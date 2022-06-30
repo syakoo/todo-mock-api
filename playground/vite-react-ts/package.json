@@ -1,7 +1,9 @@
 {
-  "name": "sample-vite-react-ts-app",
-  "private": true,
+  "name": "test-vite-react-ts-app",
   "version": "0.0.0",
+  "author": "syakoo",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -10,7 +12,7 @@
   "dependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "todo-browser-mock-api": "file:../.."
+    "todo-mock-api": "file:packages/todo-mock-api"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
@@ -21,5 +23,14 @@
   },
   "msw": {
     "workerDirectory": "public"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syakoo/todo-mock-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/syakoo/todo-mock-api/issues"
+  },
+  "homepage": "https://github.com/syakoo/todo-mock-api#readme",
+  "description": ""
 }

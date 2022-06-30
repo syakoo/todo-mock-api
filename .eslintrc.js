@@ -22,6 +22,7 @@ module.exports = defineConfig({
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
+        project: ['tsconfig.json', 'packages/todo-mock-api/tsconfig.json'],
       },
     },
   },

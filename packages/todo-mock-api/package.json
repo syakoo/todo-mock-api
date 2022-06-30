@@ -1,0 +1,34 @@
+{
+  "name": "todo-mock-api",
+  "version": "0.0.0",
+  "description": "TodoApp Mock API",
+  "author": "syakoo",
+  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "lint-fix": "eslint --cache --fix src/",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
+    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s"
+  },
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syakoo/todo-mock-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/syakoo/todo-mock-api/issues"
+  },
+  "homepage": "https://github.com/syakoo/todo-mock-api#readme",
+  "dependencies": {
+    "msw": "^0.42.3"
+  }
+}
