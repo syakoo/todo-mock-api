@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow npm",
-    "lint-fix": "eslint --cache --fix packages/*/**",
+    "lint-fix": "eslint --cache --fix . && prettier --cache --write .",
     "build": "npm run -ws build"
   },
   "keywords": [],

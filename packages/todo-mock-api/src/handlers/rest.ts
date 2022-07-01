@@ -1,11 +1,9 @@
 import { rest } from 'msw';
 
-
 import * as user from '~/core/user';
 
 import { HttpError } from '../utils/httpError';
 import { GlobalState } from '../core/types';
-
 
 let state: GlobalState = { users: [], tasks: [] };
 
