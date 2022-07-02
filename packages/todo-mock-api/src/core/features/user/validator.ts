@@ -1,4 +1,4 @@
-import { ValidateError } from './validateError';
+import { ValidateError } from '~/utils/customError';
 
 export function assertValidUser(user: unknown): asserts user is string {
   if (typeof user !== 'string') {

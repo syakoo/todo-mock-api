@@ -1,9 +1,7 @@
 import { rest } from 'msw';
 
-import * as user from '~/core/user';
-import { assertValidPassword, assertValidUser } from '~/validators';
-import { ValidateError } from '~/validators/validateError';
-import { CustomError } from '~/utils/customError';
+import * as user from '~/core/features/user';
+import { CustomError, ValidateError } from '~/utils/customError';
 import { createGlobalStorage } from '~/core/globalState';
 import { HttpError } from '~/utils/httpError';
 
@@ -18,8 +16,8 @@ export function createRestHandlers() {
     }),
     rest.post<UnknownRecord>('/api/users/register', (req, res, ctx) => {
       try {
-        assertValidUser(req.body.user);
-        assertValidPassword(req.body.password);
+        user.assertValidUser(req.body.user);
+        user.assertValidPassword(req.body.password);
       } catch (error) {
         if (error instanceof ValidateError) {
           return res(ctx.status(400), ctx.json(error.toJson()));

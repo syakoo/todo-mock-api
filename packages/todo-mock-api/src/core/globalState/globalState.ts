@@ -1,9 +1,10 @@
-import { assertValidPassword } from '~/validators';
-
-import { assertValidUser } from '../../validators/user';
+import {
+  assertValidUser,
+  assertValidPassword,
+} from '~/core/features/user/validator';
 
 import type { UnknownRecord } from '~/utils/types';
-import type { UserState } from '../user/types';
+import type { UserState } from '~/core/features/user';
 
 export interface GlobalState {
   users: UserState[];
