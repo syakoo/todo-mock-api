@@ -1,7 +1,8 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
+import { HttpError } from '~/utils/httpError';
 
-import { GlobalState, WithDBStateReadonlyInput } from '../types';
-import { HttpError } from '../../utils/httpError';
+import type { GlobalState } from '~/core/globalState';
+import type { WithDBStateReadonlyInput } from '../types';
 
 interface RegisterUserInput {
   user: string;

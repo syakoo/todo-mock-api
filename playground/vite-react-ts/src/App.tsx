@@ -3,15 +3,21 @@ import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const fetchUser = async () => {
-  return await fetch('/api/user').then((res) => res.json());
+const registerUser = async () => {
+  return await fetch('/api/users/register', {
+    method: 'post',
+    body: JSON.stringify({ user: 'hoge', password: 'pass' }),
+    headers: { 'Content-Type': 'application/json' },
+  })
+    .then((res) => res.json())
+    .then((res) => JSON.stringify(res));
 };
 
 function App() {
   const [res, setRes] = useState<null | string>(null);
 
   const onClick = async () => {
-    setRes(await fetchUser());
+    setRes(await registerUser());
   };
 
   return (

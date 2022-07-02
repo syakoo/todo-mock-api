@@ -12,7 +12,7 @@
     "prebuild": "rimraf dist",
     "build": "rollup -c",
     "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
-    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s"
+    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s -p 3333"
   },
   "files": [
     "package.json",
