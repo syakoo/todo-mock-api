@@ -3,21 +3,33 @@ import { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const registerUser = async () => {
-  return await fetch('/api/users/register', {
-    method: 'post',
-    body: JSON.stringify({ user: 'hoge', password: 'pass' }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((res) => res.json())
-    .then((res) => JSON.stringify(res));
-};
-
 function App() {
   const [res, setRes] = useState<null | string>(null);
+  const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
 
-  const onClick = async () => {
-    setRes(await registerUser());
+  const register = async () => {
+    const result = await fetch('/api/users/register', {
+      method: 'post',
+      body: JSON.stringify({ user, password }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((res) => JSON.stringify(res));
+
+    setRes(result);
+  };
+
+  const login = async () => {
+    const result = await fetch('/api/users/login', {
+      method: 'post',
+      body: JSON.stringify({ user, password }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((res) => res.json())
+      .then((res) => JSON.stringify(res));
+
+    setRes(result);
   };
 
   return (
@@ -26,7 +38,26 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
         <div>
-          <button onClick={onClick}>Request GET /api/user</button>
+          <div>
+            <input
+              type="text"
+              onChange={(e) => {
+                setUser(e.target.value);
+              }}
+              value={user}
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              value={password}
+            />
+          </div>
+          <button onClick={register}>Register</button>
+          <button onClick={login}>Login</button>
           <div>
             <h2>Response</h2>
             <div>{res}</div>
