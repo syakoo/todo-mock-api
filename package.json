@@ -32,6 +32,7 @@
     "playground/vite-react-ts"
   ],
   "simple-git-hooks": {
-    "pre-commit": "npm run lint-fix"
+    "pre-commit": "npm run lint-fix",
+    "commit-msg": "node ./scripts/addEmojiCommitPrefix.js"
   }
 }
