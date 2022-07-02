@@ -7,3 +7,5 @@ export type DeepWriteable<T> = T extends DeepReadonly<infer I>
   : {
       -readonly [K in keyof T]: DeepWriteable<T[K]>;
     };
+
+export type UnknownRecord = Record<string, unknown>;
