@@ -45,7 +45,11 @@ export const restHandlers = [
         res(ctx.status(error.code), ctx.body(error.toJson()));
       }
 
-      const err = new HttpError(500, 'サーバー内でエラーが発生しました');
+      const err = new HttpError(
+        500,
+        '処理時に予期しないエラーが発生しました',
+        'サーバー内でエラーが発生しました'
+      );
       res(ctx.status(err.code), ctx.body(err.toJson()));
     }
   }),

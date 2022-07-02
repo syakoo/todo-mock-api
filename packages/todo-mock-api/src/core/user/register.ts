@@ -15,7 +15,11 @@ export function registerUser(
   const newState = deepCopyWithWriteable(state);
 
   if (state.users.filter((u) => u.user === input.user).length > 0) {
-    throw new HttpError(409, '既に同じユーザーが存在します');
+    throw new HttpError(
+      409,
+      `ユーザー ${input.user} は既に登録されています`,
+      '既に同じユーザーが存在します'
+    );
   }
 
   newState.users.push({
