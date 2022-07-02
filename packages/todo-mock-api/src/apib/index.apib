@@ -32,7 +32,8 @@ Todo アプリのモック API のドキュメントです。
 
             { 
                 "code": "409",
-                "message": "string"
+                "message": "string",
+                "display_message": "string"
             }
 
 
@@ -63,7 +64,8 @@ Todo アプリのモック API のドキュメントです。
 
             { 
                 "code": "401",
-                "message": "string"
+                "message": "string",
+                "display_message": "string"
             }
 
 
@@ -85,7 +87,8 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 # Group タスク
@@ -120,7 +123,8 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 ### 登録 [POST]
@@ -149,7 +153,8 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 ## 個別 [/tasks/{id}]
@@ -176,14 +181,16 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 + Response 404 (application/json)
 
         { 
             "code": "404",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 ### 更新 [PATCH]
@@ -214,14 +221,16 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 + Response 404 (application/json)
 
         { 
             "code": "404",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 ### 削除 [DELETE]
@@ -239,14 +248,20 @@ Todo アプリのモック API のドキュメントです。
         }
 + Response 401 (application/json)
 
-        { "error": "string" }
+        { 
+            "code": "401",
+            "message": "string",
+            "display_message": "string"
+        }
 
 + Response 404 (application/json)
 
         { 
             "code": "404",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
+
 ## タスク完了 [/tasks/{id}/completion]
 
 ### 完了 [PUT]
@@ -271,14 +286,16 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 + Response 404 (application/json)
 
         { 
             "code": "404",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 ### 完了取り消し [DELETE]
@@ -303,13 +320,15 @@ Todo アプリのモック API のドキュメントです。
 
         { 
             "code": "401",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
 
 + Response 404 (application/json)
 
         { 
             "code": "404",
-            "message": "string"
+            "message": "string",
+            "display_message": "string"
         }
             
