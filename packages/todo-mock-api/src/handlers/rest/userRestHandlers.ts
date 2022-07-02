@@ -1,19 +1,13 @@
 import { rest } from 'msw';
 
+import { GlobalStorage } from '~/core/globalState/globalStorage';
 import * as user from '~/core/features/user';
 import { CustomError, ValidateError } from '~/utils/customError';
-import { createGlobalStorage } from '~/core/globalState';
 import { HttpError } from '~/utils/httpError';
+import { UnknownRecord } from '~/utils/types';
 
-import type { UnknownRecord } from '~/utils/types';
-
-export function createRestHandlers() {
-  const globalStorage = createGlobalStorage();
-
-  const restHandlers = [
-    rest.get('/api/user', (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json('Hello World'));
-    }),
+export function createUserRestHandlers(globalStorage: GlobalStorage) {
+  const userRestHandlers = [
     rest.post<UnknownRecord>('/api/users/register', (req, res, ctx) => {
       try {
         user.assertValidUser(req.body.user);
@@ -63,5 +57,5 @@ export function createRestHandlers() {
     }),
   ];
 
-  return restHandlers;
+  return userRestHandlers;
 }
