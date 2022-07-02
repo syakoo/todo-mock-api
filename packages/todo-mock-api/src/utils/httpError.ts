@@ -1,7 +1,7 @@
 import { CustomError } from './customError';
 
 /**
- * Http 用のエラー、これ以外は 500 で返すことにする
+ * HTTP 用のエラー
  */
 export class HttpError extends CustomError {
   code: number;
