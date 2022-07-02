@@ -1,7 +1,4 @@
-import {
-  assertValidUser,
-  assertValidPassword,
-} from '~/core/features/user/validator';
+import { assertValidUserState } from '~/core/features/user/validator';
 
 import type { UnknownRecord } from '~/utils/types';
 import type { UserState } from '~/core/features/user';
@@ -29,10 +26,10 @@ export function isValidGlobalState(state: UnknownRecord | null): boolean {
 
   try {
     for (const user of state.users) {
-      assertValidUser(user.user);
-      assertValidPassword(user.password);
+      assertValidUserState(user);
     }
-  } catch {
+  } catch (error) {
+    console.error(error);
     return false;
   }
 

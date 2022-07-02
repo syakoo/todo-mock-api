@@ -39,7 +39,7 @@ function initStore(): Store<GlobalState> {
     if (!store.getData()) {
       store.setData(defaultGlobalState);
     }
-  } catch {
+  } catch (error) {
     throw new Error(
       '保存されているデータが正しい形式ではありません. データを削除するか、正しい形式に修正してください.'
     );
