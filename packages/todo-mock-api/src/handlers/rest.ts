@@ -17,7 +17,6 @@ export function createRestHandlers() {
       return res(ctx.status(200), ctx.json('Hello World'));
     }),
     rest.post<UnknownRecord>('/api/users/register', (req, res, ctx) => {
-      console.log(globalStorage.globalState);
       try {
         assertValidUser(req.body.user);
         assertValidPassword(req.body.password);
