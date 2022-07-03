@@ -41,7 +41,12 @@ export async function loginUser(
     );
   }
 
-  const token = Base64.encode(input.user);
+  const token = Base64.encode(
+    JSON.stringify({
+      user: input.user,
+      date: new Date(),
+    })
+  );
   newState.users.forEach((user) => {
     if (user.user === input.user) {
       user.token = token;
