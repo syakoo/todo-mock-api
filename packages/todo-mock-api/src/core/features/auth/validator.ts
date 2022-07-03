@@ -1,7 +1,26 @@
 import { ValidateError } from '~/utils/customError';
-import { assertValidToken } from '~/core/features/user';
 
-export function checkAndGetBearerToken(value: string | null): string {
+export function assertValidToken(
+  token: unknown
+): asserts token is string | undefined {
+  if (token === undefined) return;
+
+  if (typeof token !== 'string') {
+    throw new ValidateError(
+      '`token` が文字列ではありません',
+      'トークンの値が無効です'
+    );
+  }
+
+  if (!/^[0-9a-zA-Z-._~+/]+=*$/.test(token)) {
+    throw new ValidateError(
+      '`token` は token68 の形式である必要があります',
+      'トークンの値が無効です'
+    );
+  }
+}
+
+export function checkAndGetBearerToken(value: unknown): string {
   if (typeof value !== 'string') {
     throw new ValidateError(
       'bearer token が文字列ではありません。設定されていない可能性があります。',

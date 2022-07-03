@@ -2,9 +2,10 @@ import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
 import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '~/core/types';
+import type { UserState } from './types';
 
 interface LogoutUserInput {
-  token: string;
+  user: UserState;
 }
 
 export async function logoutUser(
@@ -14,7 +15,7 @@ export async function logoutUser(
   const newState = deepCopyWithWriteable(state);
 
   newState.users.forEach((user) => {
-    if (user.token === input.token) {
+    if (user.user === input.user.user) {
       delete user.token;
     }
   });

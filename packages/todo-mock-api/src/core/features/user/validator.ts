@@ -1,5 +1,6 @@
 import { ValidateError } from '~/utils/customError';
 import { isUnknownRecord } from '~/utils/validator';
+import { assertValidToken } from '~/core/features/auth';
 
 import { UserState } from './types';
 
@@ -19,26 +20,6 @@ export function assertValidPassword(
     throw new ValidateError(
       '`password` が文字列ではありません',
       'パスワードの値が無効です'
-    );
-  }
-}
-
-export function assertValidToken(
-  token: unknown
-): asserts token is string | undefined {
-  if (token === undefined) return;
-
-  if (typeof token !== 'string') {
-    throw new ValidateError(
-      '`token` が文字列ではありません',
-      'トークンの値が無効です'
-    );
-  }
-
-  if (!/^[0-9a-zA-Z-._~+/]+=*$/.test(token)) {
-    throw new ValidateError(
-      '`token` は token68 の形式である必要があります',
-      'トークンの値が無効です'
     );
   }
 }

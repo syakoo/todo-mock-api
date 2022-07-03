@@ -1,9 +1,9 @@
 import { rest } from 'msw';
 
 import * as user from '~/core/features/user';
+import * as auth from '~/core/features/auth';
 import { CustomError, ValidateError } from '~/utils/customError';
 import { HttpError } from '~/utils/httpError';
-import { checkAndGetBearerToken } from '~/core/features/auth/bearerToken';
 
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
 import type { UnknownRecord } from '~/utils/types';
@@ -108,24 +108,14 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
     }),
 
     rest.post('/api/users/logout', async (req, res, ctx) => {
-      let token: string;
       try {
-        token = checkAndGetBearerToken(req.headers.get('Authorization'));
-      } catch (error) {
-        if (error instanceof ValidateError) {
-          return res(ctx.status(401), ctx.json(error.toJson()));
-        }
+        const authResult = await auth.authenticateToken({
+          input: { maybeBearerToken: req.headers.get('Authorization') },
+          state: globalStorage.globalState,
+        });
 
-        const err = new CustomError(
-          'バリデーション時に意図しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
-        );
-        return res(ctx.status(500), ctx.json(err.toJson()));
-      }
-
-      try {
         const result = await user.logoutUser({
-          input: { token },
+          input: { user: authResult.output.user },
           state: globalStorage.globalState,
         });
         globalStorage.updateGlobalState(result);
