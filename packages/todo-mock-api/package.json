@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/syakoo/todo-mock-api#readme",
   "dependencies": {
+    "js-base64": "^3.7.2",
     "msw": "^0.42.3"
   }
 }
