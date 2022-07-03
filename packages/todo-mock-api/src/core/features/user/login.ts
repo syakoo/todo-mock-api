@@ -1,6 +1,7 @@
+import { Base64 } from 'js-base64';
+
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 import { HttpError } from '~/utils/httpError';
-import { sha256 } from '~/utils/sha256';
 
 import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { GlobalState } from '~/core/globalState';
@@ -40,14 +41,11 @@ export async function loginUser(
     );
   }
 
-  const token = await sha256(`${input.user}:${input.password}`);
-  newState.users.map((user) => {
-    if (user.user !== input.user) return user;
-
-    return {
-      ...user,
-      token,
-    };
+  const token = Base64.encode(input.user);
+  newState.users.forEach((user) => {
+    if (user.user === input.user) {
+      user.token = token;
+    }
   });
 
   return {

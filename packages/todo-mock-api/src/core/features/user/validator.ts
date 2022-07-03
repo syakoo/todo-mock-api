@@ -34,6 +34,13 @@ export function assertValidToken(
       'トークンの値が無効です'
     );
   }
+
+  if (!/^[0-9a-zA-Z-._~+/]+=*$/.test(token)) {
+    throw new ValidateError(
+      '`token` は token68 の形式である必要があります',
+      'トークンの値が無効です'
+    );
+  }
 }
 
 export function assertValidUserState(
