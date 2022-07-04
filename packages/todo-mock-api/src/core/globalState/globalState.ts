@@ -12,7 +12,7 @@ export interface GlobalState {
 export const defaultGlobalState: GlobalState = {
   users: [
     {
-      user: 'guest',
+      username: 'guest',
       password: 'password',
     },
   ],

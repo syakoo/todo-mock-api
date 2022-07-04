@@ -5,7 +5,7 @@ import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '../../types';
 
 interface RegisterUserInput {
-  user: string;
+  username: string;
   password: string;
 }
 
@@ -15,16 +15,16 @@ export function registerUser(
   const { input, state } = props;
   const newState = deepCopyWithWriteable(state);
 
-  if (state.users.filter((u) => u.user === input.user).length > 0) {
+  if (state.users.filter((u) => u.username === input.username).length > 0) {
     throw new HttpError(
       409,
-      `ユーザー ${input.user} は既に登録されています`,
+      `ユーザー ${input.username} は既に登録されています`,
       '既に同じユーザーが存在します'
     );
   }
 
   newState.users.push({
-    user: input.user,
+    username: input.username,
     password: input.password,
   });
 

@@ -7,7 +7,7 @@ import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { GlobalState } from '~/core/globalState';
 
 interface LoginUserInput {
-  user: string;
+  username: string;
   password: string;
 }
 
@@ -24,11 +24,11 @@ export async function loginUser(
   const { input, state } = props;
   const newState = deepCopyWithWriteable(state);
 
-  const targetUser = state.users.find((u) => u.user === input.user);
+  const targetUser = state.users.find((u) => u.username === input.username);
   if (!targetUser) {
     throw new HttpError(
       404,
-      `ユーザー ${input.user} が存在しません`,
+      `ユーザー ${input.username} が存在しません`,
       '該当するユーザーが見つかりませんでした'
     );
   }
@@ -36,19 +36,19 @@ export async function loginUser(
   if (targetUser.password !== input.password) {
     throw new HttpError(
       401,
-      `ユーザー ${input.user} は見つかりましたが、パスワード ${input.password} が正しくありません`,
+      `ユーザー ${input.username} は見つかりましたが、パスワード ${input.password} が正しくありません`,
       'ユーザー名もしくはパスワードが間違えています。もう一度入力してください。'
     );
   }
 
   const token = Base64.encode(
     JSON.stringify({
-      user: input.user,
+      user: input.username,
       date: new Date(),
     })
   );
   newState.users.forEach((user) => {
-    if (user.user === input.user) {
+    if (user.username === input.username) {
       user.token = token;
     }
   });

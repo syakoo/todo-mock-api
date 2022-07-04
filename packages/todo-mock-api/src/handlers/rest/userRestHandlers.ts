@@ -12,7 +12,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
   const userRestHandlers = [
     rest.post<UnknownRecord>('/api/users/register', (req, res, ctx) => {
       try {
-        user.assertValidUser(req.body.user);
+        user.assertValidUserName(req.body.username);
         user.assertValidPassword(req.body.password);
       } catch (error) {
         if (error instanceof ValidateError) {
@@ -28,7 +28,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
 
       try {
         const userInfo = {
-          user: req.body.user,
+          username: req.body.username,
           password: req.body.password,
         };
 
@@ -60,7 +60,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
 
     rest.post<UnknownRecord>('/api/users/login', async (req, res, ctx) => {
       try {
-        user.assertValidUser(req.body.user);
+        user.assertValidUserName(req.body.username);
         user.assertValidPassword(req.body.password);
       } catch (error) {
         if (error instanceof ValidateError) {
@@ -76,7 +76,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
 
       try {
         const userInfo = {
-          user: req.body.user,
+          username: req.body.username,
           password: req.body.password,
         };
 

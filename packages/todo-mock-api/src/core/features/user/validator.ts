@@ -4,8 +4,10 @@ import { assertValidToken } from '~/core/features/auth';
 
 import { UserState } from './types';
 
-export function assertValidUser(user: unknown): asserts user is string {
-  if (typeof user !== 'string') {
+export function assertValidUserName(
+  username: unknown
+): asserts username is string {
+  if (typeof username !== 'string') {
     throw new ValidateError(
       '`user` が文字列ではありません',
       'ユーザー名の値が無効です'
@@ -34,7 +36,7 @@ export function assertValidUserState(
     );
   }
 
-  assertValidUser(state.user);
-  assertValidUser(state.password);
+  assertValidUserName(state.username);
+  assertValidPassword(state.password);
   assertValidToken(state.token);
 }

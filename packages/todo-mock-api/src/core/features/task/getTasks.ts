@@ -20,7 +20,9 @@ export async function getTasks(
   const { state, input } = props;
   const newState = deepCopyWithWriteable(state);
 
-  const tasksState = newState.tasks.filter((t) => t.userId === input.user.user);
+  const tasksState = newState.tasks.filter(
+    (t) => t.userId === input.user.username
+  );
 
   const tasks: Task[] = tasksState.map((t) => {
     return {
