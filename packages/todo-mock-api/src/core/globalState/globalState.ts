@@ -2,10 +2,11 @@ import { assertValidUserState } from '~/core/features/user/validator';
 
 import type { UnknownRecord } from '~/utils/types';
 import type { UserState } from '~/core/features/user';
+import type { TaskState } from '~/core/features/task';
 
 export interface GlobalState {
   users: UserState[];
-  tasks: [];
+  tasks: TaskState[];
 }
 
 export const defaultGlobalState: GlobalState = {
