@@ -2,7 +2,8 @@ import { ValidateError } from '~/utils/customError';
 import { isUnknownRecord } from '~/utils/validator';
 import { assertValidToken } from '~/core/features/auth';
 
-import { UserState } from './types';
+import type { UserState, User } from './types';
+import type { UnknownRecord } from '~/utils/types';
 
 export function assertValidUserName(
   username: unknown
@@ -26,9 +27,18 @@ export function assertValidPassword(
   }
 }
 
-export function assertValidUserState(
-  state: unknown
-): asserts state is UserState {
+export function assertValidUserId(
+  maybeUserId: unknown
+): asserts maybeUserId is string {
+  if (typeof maybeUserId !== 'string') {
+    throw new ValidateError(
+      'ユーザー ID が文字列ではありません',
+      'ユーザー情報が正しい値ではありません'
+    );
+  }
+}
+
+export function assertValidUser(state: unknown): asserts state is User {
   if (!isUnknownRecord(state)) {
     throw new ValidateError(
       `${state} はオブジェクト型ではありません`,
@@ -39,4 +49,11 @@ export function assertValidUserState(
   assertValidUserName(state.username);
   assertValidPassword(state.password);
   assertValidToken(state.token);
+}
+
+export function assertValidUserState(
+  state: unknown
+): asserts state is UserState {
+  assertValidUser(state);
+  assertValidUserId((state as unknown as UnknownRecord).id);
 }

@@ -10,7 +10,7 @@ import type { UnknownRecord } from '~/utils/types';
 
 export function createUserRestHandlers(globalStorage: GlobalStorage) {
   const userRestHandlers = [
-    rest.post<UnknownRecord>('/api/users/register', (req, res, ctx) => {
+    rest.post<UnknownRecord>('/api/users/register', async (req, res, ctx) => {
       try {
         user.assertValidUserName(req.body.username);
         user.assertValidPassword(req.body.password);
@@ -32,7 +32,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
           password: req.body.password,
         };
 
-        const result = user.registerUser({
+        const result = await user.registerUser({
           input: userInfo,
           state: globalStorage.globalState,
         });

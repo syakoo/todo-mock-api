@@ -1,5 +1,6 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 import { HttpError } from '~/utils/httpError';
+import { sha256 } from '~/utils/sha256';
 
 import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '../../types';
@@ -9,9 +10,9 @@ interface RegisterUserInput {
   password: string;
 }
 
-export function registerUser(
+export async function registerUser(
   props: WithDBStateReadonlyInput<RegisterUserInput>
-): GlobalState {
+): Promise<GlobalState> {
   const { input, state } = props;
   const newState = deepCopyWithWriteable(state);
 
@@ -23,9 +24,11 @@ export function registerUser(
     );
   }
 
+  const id = await sha256(input.username);
   newState.users.push({
     username: input.username,
     password: input.password,
+    id,
   });
 
   return newState;

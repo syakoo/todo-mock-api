@@ -15,7 +15,7 @@ export async function logoutUser(
   const newState = deepCopyWithWriteable(state);
 
   newState.users.forEach((user) => {
-    if (user.username === input.user.username) {
+    if (user.id === input.user.id) {
       delete user.token;
     }
   });

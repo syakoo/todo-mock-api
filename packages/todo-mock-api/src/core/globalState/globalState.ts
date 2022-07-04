@@ -14,6 +14,7 @@ export const defaultGlobalState: GlobalState = {
     {
       username: 'guest',
       password: 'password',
+      id: 'GUEST_ID',
     },
   ],
   tasks: [],
