@@ -28,7 +28,9 @@ export function assertValidTaskTitle(
 
 export function assertValidTaskDetail(
   maybeTaskDetail: unknown
-): asserts maybeTaskDetail is string {
+): asserts maybeTaskDetail is string | undefined {
+  if (maybeTaskDetail === undefined) return;
+
   if (typeof maybeTaskDetail !== 'string') {
     throw new ValidateError(
       'タスク詳細が文字列ではありません',
