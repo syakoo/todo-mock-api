@@ -16,9 +16,8 @@
     "fix": "run-s fix:*",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write",
-    "build": "run-s build:*",
-    "build:pkg": "rimraf dist && rollup -c",
-    "build:api-docs": "node ./scripts/generateAPIdocs.js"
+    "build": "rimraf dist && rollup -c",
+    "build:docs": "node ./scripts/generateAPIdocs.js"
   },
   "files": [
     "package.json",
