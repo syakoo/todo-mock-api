@@ -1,0 +1,498 @@
+openapi: "3.0.3"
+info:
+  version: 0.0.1
+  title: Todo Mock API
+servers:
+  - url: /api
+    description: Mock Server
+security:
+  - Bearer: []
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: ユーザーを登録します
+      description: ユーザー名とパスワードを送信してユーザーを登録します
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+        "200":
+          description: ユーザーの登録に成功しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/success"
+        "409":
+          description: 同じ名前のユーザーが既に存在します
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConflictUserError"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: ログイン
+      description: ユーザー名とパスワードを送信してトークンを発行します
+      security: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+        "200":
+          description: ログインに成功しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/post_users_login_response"
+        "400":
+          description: 不正なユーザーです
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidUserError"
+        "401":
+          description: 認証に失敗しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MismatchedPasswordError"
+        "404":
+          description: ユーザーが見つかりませんでした
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserNotFoundError"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: ログアウト
+      responses:
+        "200":
+          description: ログアウトに成功しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/success"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+  /tasks:
+    get:
+      tags:
+        - tasks
+      summary: タスク一覧を取得する
+      responses:
+        "200":
+          description: タスク一覧の取得に成功しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tasks"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+    post:
+      tags:
+        - tasks
+      summary: タスクを登録する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/task"
+      responses:
+        "200":
+          description: タスクの登録に成功しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        "400":
+          $ref: "#/components/responses/TokenOrTaskInvalidErrorResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+  /tasks/{task_id}:
+    parameters:
+      - name: task_id
+        in: path
+        description: 対象のタスク id
+        required: true
+        schema:
+          $ref: "#/components/schemas/task_id"
+    get:
+      tags:
+        - tasks
+      summary: 指定した id のタスク情報を取得する
+      responses:
+        "200":
+          description: 指定した id のタスクを取得できました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "404":
+          $ref: "#/components/responses/TaskNotFoundResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+    patch:
+      tags:
+        - tasks
+      summary: 指定した id のタスク情報を更新する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/task"
+      responses:
+        "200":
+          description: 指定した id のタスクを更新できました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        "400":
+          $ref: "#/components/responses/TokenOrTaskInvalidErrorResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "404":
+          $ref: "#/components/responses/TaskNotFoundResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+    delete:
+      tags:
+        - tasks
+      summary: 指定した id のタスクを削除する
+      responses:
+        "200":
+          description: 指定した id のタスクを削除できました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/success"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "404":
+          $ref: "#/components/responses/TaskNotFoundResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+  /tasks/{task_id}/completion:
+    parameters:
+      - name: task_id
+        in: path
+        description: 対象のタスク id
+        required: true
+        schema:
+          $ref: "#/components/schemas/task_id"
+    put:
+      tags:
+        - tasks
+      summary: 指定した id のタスクを完了状態にする
+      responses:
+        "200":
+          description: 指定した id のタスクを完了状態にしました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "404":
+          $ref: "#/components/responses/TaskNotFoundResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+    delete:
+      tags:
+        - tasks
+      summary: 指定した id のタスクの完了状態を解除する
+      responses:
+        "200":
+          description: 指定した id のタスクを完了状態を解除しました
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+        "400":
+          $ref: "#/components/responses/TokenInvalidResponse"
+        "401":
+          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+        "404":
+          $ref: "#/components/responses/TaskNotFoundResponse"
+        default:
+          $ref: "#/components/responses/DefaultErrorResponse"
+
+components:
+  schemas:
+    token:
+      description: 認証用トークン. token68
+      type: string
+      pattern: "/^[0-9a-zA-Z-._~+/]+=*$/"
+    task_id:
+      readOnly: true
+      description: id
+      type: string
+    user:
+      description: ユーザー登録に必要なデータ
+      type: object
+      properties:
+        username:
+          description: 氏名
+          example: guest
+          type: string
+        password:
+          description: パスワード
+          example: password
+          type: string
+    task:
+      description: タスクデータ
+      type: object
+      required:
+        - id
+        - title
+        - is_complete
+        - created_at
+      properties:
+        id:
+          readOnly: true
+          $ref: "#/components/schemas/task_id"
+        title:
+          description: タイトル
+          type: string
+          example: 宿題をする
+        detail:
+          description: 詳細
+          type: string
+          example: 数学を 10 ページする
+        is_complete:
+          description: 完了フラグ
+          type: boolean
+          readOnly: true
+        created_at:
+          description: 作成日時
+          type: string
+          example: 2020-07-06T23:59:59+09:00
+          readOnly: true
+    tasks:
+      description: タスクのリスト
+      type: array
+      items:
+        $ref: "#/components/schemas/task"
+    success:
+      description: 成功
+      type: object
+      properties:
+        success:
+          description: 成功フラグ
+          example: true
+          type: boolean
+    post_users_login_response:
+      description: "ログイン成功時のレスポンス"
+      type: object
+      properties:
+        success:
+          description: 成功フラグ
+          example: true
+          type: boolean
+        token:
+          $ref: "#/components/schemas/token"
+    Error:
+      description: エラー
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+        message:
+          description: エラーメッセージ
+          type: string
+    ConflictUserError:
+      description: 既に同じユーザーが存在します
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "ConflictUser"
+        message:
+          description: エラーメッセージ
+          type: string
+    MismatchedPasswordError:
+      description: パスワードが一致しませんでした
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "MismatchedPassword"
+        message:
+          description: エラーメッセージ
+          type: string
+    InvalidUserError:
+      description: ユーザーの値が不正です
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "InvalidUser"
+        message:
+          description: エラーメッセージ
+          type: string
+    UserNotFoundError:
+      description: 対象のユーザーが見つかりませんでした
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "UserNotFound"
+        message:
+          description: エラーメッセージ
+          type: string
+    InvalidTokenError:
+      description: トークンの値が不正です
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "InvalidToken"
+        message:
+          description: エラーメッセージ
+          type: string
+    TokenRequiredError:
+      description: トークンが見つかりませんでした
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "TokenRequired"
+        message:
+          description: エラーメッセージ
+          type: string
+    MismatchedTokenError:
+      description: トークンが一致しませんでした
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "MismatchedToken"
+        message:
+          description: エラーメッセージ
+          type: string
+    TaskNotFoundError:
+      description: 対象のタスクが見つかりませんでした
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "TaskNotFound"
+        message:
+          description: エラーメッセージ
+          type: string
+    InvalidTaskError:
+      description: タスクの値が不正です
+      type: object
+      properties:
+        code:
+          description: エラーコード
+          type: string
+          enum:
+            - "InvalidTask"
+        message:
+          description: エラーメッセージ
+          type: string
+
+  responses:
+    DefaultErrorResponse:
+      description: 操作に失敗しました
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    DefaultUnauthorizedErrorResponse:
+      description: 認証に失敗しました
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/MismatchedTokenError"
+              - $ref: "#/components/schemas/TokenRequiredError"
+    TaskNotFoundResponse:
+      description: 対象のタスクが見つかりませんでした
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TaskNotFoundError"
+    TokenInvalidResponse:
+      description: トークンの値が不正です
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/InvalidTokenError"
+    TokenOrTaskInvalidErrorResponse:
+      description: タスクまたはトークンの値が不正です
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/InvalidTokenError"
+              - $ref: "#/components/schemas/InvalidTaskError"
+
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: API へのアクセスに必要なトークン。結構適当です。
+      bearerFormat: token68
+
+tags:
+  - name: users
+    description: ユーザーに関する API 群
+  - name: tasks
+    description: タスクに関する API 群
