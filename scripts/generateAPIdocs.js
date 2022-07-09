@@ -2,7 +2,7 @@ const path = require('path');
 const execSync = require('child_process').execSync;
 
 const entryPoints = {
-  './packages/todo-mock-api/src/docs/openapi.yaml': 'todo_mock_api_doc.html',
+  './src/docs/openapi.yaml': 'index.html',
 };
 
 function main() {

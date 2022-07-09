@@ -1,16 +1,37 @@
 {
-  "name": "todo-mock-api-monorepo",
-  "version": "0.0.1",
+  "name": "@syakoo/todo-mock-api",
+  "version": "0.0.0",
   "description": "TodoApp Mock API",
   "author": "syakoo",
-  "private": true,
+  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "preinstall": "npx only-allow npm",
-    "lint-fix": "eslint --cache --fix --ignore-path .gitignore . && prettier --cache --write --ignore-path .gitignore .",
-    "build": "npm run -w packages/* build",
-    "build:api-docs": "node ./scripts/generateAPIdocs.js"
+    "lint-fix": "eslint --cache --fix src/",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
+    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s -p 3333"
   },
-  "keywords": [],
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syakoo/todo-mock-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/syakoo/todo-mock-api/issues"
+  },
+  "homepage": "https://github.com/syakoo/todo-mock-api#readme",
+  "dependencies": {
+    "js-base64": "^3.7.2",
+    "msw": "^0.42.3"
+  },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.3",
     "@types/node": "^18.0.0",
@@ -27,13 +48,5 @@
     "rollup": "^2.75.7",
     "simple-git-hooks": "^2.8.0",
     "typescript": "^4.7.4"
-  },
-  "workspaces": [
-    "packages/todo-mock-api",
-    "playground/vite-react-ts"
-  ],
-  "simple-git-hooks": {
-    "pre-commit": "npm run lint-fix",
-    "commit-msg": "node ./scripts/addEmojiCommitPrefix.js"
   }
 }

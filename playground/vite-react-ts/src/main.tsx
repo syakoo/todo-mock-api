@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { startWorker } from 'todo-mock-api';
+import { startWorker } from '@syakoo/todo-mock-api';
 
 import App from './App';
 import './index.css';

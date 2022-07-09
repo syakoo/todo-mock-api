@@ -12,7 +12,7 @@ function App() {
   const register = async () => {
     const result = await fetch('/api/users/register', {
       method: 'post',
-      body: JSON.stringify({ user, password }),
+      body: JSON.stringify({ username: user, password }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then((res) => res.json())
@@ -24,7 +24,7 @@ function App() {
   const login = async () => {
     const result = await fetch('/api/users/login', {
       method: 'post',
-      body: JSON.stringify({ user, password }),
+      body: JSON.stringify({ username: user, password }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then((res) => res.json())
