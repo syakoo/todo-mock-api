@@ -8,10 +8,12 @@
   "module": "dist/index.mjs",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "lint-fix": "eslint --cache --fix src/",
+    "preinstall": "npx only-allow npm",
+    "lint-fix": "eslint --cache --fix --ignore-path .gitignore . && prettier --cache --write --ignore-path .gitignore .",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
     "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
+    "build:api-docs": "node ./scripts/generateAPIdocs.js",
     "apib": "aglio -i src/apib/index.apib --theme-variables slate -s -p 3333"
   },
   "files": [
@@ -48,5 +50,9 @@
     "rollup": "^2.75.7",
     "simple-git-hooks": "^2.8.0",
     "typescript": "^4.7.4"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint-fix",
+    "commit-msg": "node ./scripts/addEmojiCommitPrefix.js"
   }
 }
