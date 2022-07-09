@@ -12,9 +12,7 @@
     "lint-fix": "eslint --cache --fix --ignore-path .gitignore . && prettier --cache --write --ignore-path .gitignore .",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
-    "build:apib": "aglio -i src/apib/index.apib --theme-variables slate -o docs/index.html",
-    "build:api-docs": "node ./scripts/generateAPIdocs.js",
-    "apib": "aglio -i src/apib/index.apib --theme-variables slate -s -p 3333"
+    "build:api-docs": "node ./scripts/generateAPIdocs.js"
   },
   "files": [
     "package.json",
@@ -39,7 +37,6 @@
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
-    "aglio": "^2.3.0",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-define-config": "^1.5.1",
