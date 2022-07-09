@@ -1,7 +1,6 @@
 import { type CommonErrorCode, CustomError } from '~/utils/customError';
 
 import type { UserErrorCode } from '~/core/features/user';
-import type { UnknownRecord } from '~/utils/types';
 import type { TokenErrorCode } from '~/core/features/token';
 import type { TaskErrorCode } from '~/core/features/task/error';
 
@@ -11,9 +10,14 @@ export type AppErrorCode =
   | TokenErrorCode
   | TaskErrorCode;
 
+export interface HTTPErrorResponseBody {
+  code: AppErrorCode;
+  message: string;
+}
+
 export interface HTTPErrorResponse {
   status: number;
-  body: UnknownRecord;
+  body: HTTPErrorResponseBody;
 }
 
 export function error2HttpErrorResponse(error: unknown): HTTPErrorResponse {

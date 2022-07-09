@@ -2,10 +2,11 @@ import { setupWorker } from 'msw';
 
 import { createRestHandlers } from './handlers/rest';
 
+import type {
+  AppErrorCode,
+  HTTPErrorResponseBody,
+} from './handlers/rest/error';
 import type { GlobalState } from './core/globalState';
-
-export type { AppErrorCode } from './handlers/rest/error';
-export { GlobalState };
 
 interface WorkerOption {
   type?: 'rest';
@@ -19,3 +20,5 @@ export const startWorker = (option?: WorkerOption) => {
 
   worker.start();
 };
+
+export type { GlobalState, AppErrorCode, HTTPErrorResponseBody };
