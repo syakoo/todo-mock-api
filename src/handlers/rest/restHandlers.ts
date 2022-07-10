@@ -1,11 +1,15 @@
 import { rest } from 'msw';
 
-import { createGlobalStorage } from '~/core/globalState';
+import { createGlobalStorage, GlobalState } from '~/core/globalState';
 
 import { createUserRestHandlers } from './userRestHandlers';
 
-export function createRestHandlers() {
-  const globalStorage = createGlobalStorage();
+interface HanlderOption {
+  initialState?: GlobalState;
+}
+
+export function createRestHandlers(option?: HanlderOption) {
+  const globalStorage = createGlobalStorage(option?.initialState);
 
   const restHandlers = [
     rest.get('/api/health', (req, res, ctx) => {

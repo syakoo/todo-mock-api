@@ -14,8 +14,8 @@ export interface GlobalStorage {
   updateGlobalState: (state: GlobalState) => void;
 }
 
-export function createGlobalStorage(): GlobalStorage {
-  const store = initStore();
+export function createGlobalStorage(initialState?: GlobalState): GlobalStorage {
+  const store = initStore(initialState);
   let globalState = store.getData() as unknown as GlobalState;
 
   const updateGlobalState = (state: GlobalState) => {
@@ -31,11 +31,14 @@ export function createGlobalStorage(): GlobalStorage {
   };
 }
 
-function initStore(): Store<GlobalState> {
+function initStore(initialState?: GlobalState): Store<GlobalState> {
   // この時点では GlobalState は確定していない
   const store = setupLocalStorage<GlobalState>();
 
   try {
+    if (initialState) {
+      store.setData(initialState);
+    }
     if (!store.getData()) {
       store.setData(defaultGlobalState);
     }
