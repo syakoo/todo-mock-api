@@ -67,6 +67,32 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
+
+    rest.get('/api/tasks/:taskId', async (req, res, ctx) => {
+      try {
+        const user = await tokenFeature.getUserFromToken({
+          state: globalStorage.globalState,
+          input: {
+            maybeBearerToken: req.headers.get('Authentication'),
+          },
+        });
+        taskFeature.assertValidTaskId(req.params.taskId);
+
+        const result = await taskFeature.getTask({
+          state: globalStorage.globalState,
+          input: {
+            user,
+            id: req.params.taskId,
+          },
+        });
+        const task = result.output.task;
+
+        return res(ctx.status(200), ctx.json(task));
+      } catch (error) {
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
+      }
+    }),
   ];
 
   return taskRestHandlers;
