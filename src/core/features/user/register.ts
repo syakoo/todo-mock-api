@@ -1,6 +1,7 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
-import { HttpError } from '~/utils/httpError';
 import { sha256 } from '~/utils/sha256';
+
+import { UserError } from './error';
 
 import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '../../types';
@@ -17,10 +18,9 @@ export async function registerUser(
   const newState = deepCopyWithWriteable(state);
 
   if (state.users.filter((u) => u.username === input.username).length > 0) {
-    throw new HttpError(
-      409,
+    throw new UserError(
       `ユーザー ${input.username} は既に登録されています`,
-      '既に同じユーザーが存在します'
+      'ConflictUser'
     );
   }
 

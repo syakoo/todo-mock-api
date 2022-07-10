@@ -1,5 +1,6 @@
 import { isUnknownRecord } from '~/utils/validator';
-import { ValidateError } from '~/utils/customError';
+
+import { TaskError } from './error';
 
 import type { Task, TaskState } from './types';
 import type { UnknownRecord } from '~/utils/types';
@@ -8,10 +9,7 @@ export function assertValidTaskId(
   maybeTaskId: unknown
 ): asserts maybeTaskId is string {
   if (typeof maybeTaskId !== 'string') {
-    throw new ValidateError(
-      'タスク ID が文字列ではありません',
-      'タスクの値が無効です'
-    );
+    throw new TaskError('タスク ID が文字列ではありません', 'InvalidTask');
   }
 }
 
@@ -19,10 +17,7 @@ export function assertValidTaskTitle(
   maybeTaskTitle: unknown
 ): asserts maybeTaskTitle is string {
   if (typeof maybeTaskTitle !== 'string') {
-    throw new ValidateError(
-      'タスクタイトルが文字列ではありません',
-      'タスクの値が無効です'
-    );
+    throw new TaskError('タスクタイトルが文字列ではありません', 'InvalidTask');
   }
 }
 
@@ -32,10 +27,7 @@ export function assertValidTaskDetail(
   if (maybeTaskDetail === undefined) return;
 
   if (typeof maybeTaskDetail !== 'string') {
-    throw new ValidateError(
-      'タスク詳細が文字列ではありません',
-      'タスクの値が無効です'
-    );
+    throw new TaskError('タスク詳細が文字列ではありません', 'InvalidTask');
   }
 }
 
@@ -43,9 +35,9 @@ export function assertValidTaskIsComplete(
   maybeTaskIsComplete: unknown
 ): asserts maybeTaskIsComplete is boolean {
   if (typeof maybeTaskIsComplete !== 'boolean') {
-    throw new ValidateError(
+    throw new TaskError(
       'タスク完了フラグが真偽値ではありません',
-      'タスクの値が無効です'
+      'InvalidTask'
     );
   }
 }
@@ -54,16 +46,13 @@ export function assertValidTaskCreatedAt(
   maybeTaskIsCreatedAt: unknown
 ): asserts maybeTaskIsCreatedAt is string {
   if (typeof maybeTaskIsCreatedAt !== 'string') {
-    throw new ValidateError(
-      'タスク作成日時が文字列ではありません',
-      'タスクの値が無効です'
-    );
+    throw new TaskError('タスク作成日時が文字列ではありません', 'InvalidTask');
   }
 
   if (isNaN(Date.parse(maybeTaskIsCreatedAt))) {
-    throw new ValidateError(
+    throw new TaskError(
       'タスク作成日時が日付のフォーマットではありません',
-      'タスクの値が無効です'
+      'InvalidTask'
     );
   }
 }
@@ -72,9 +61,9 @@ export function assertValidTaskUserId(
   maybeTaskIsUserId: unknown
 ): asserts maybeTaskIsUserId is string {
   if (typeof maybeTaskIsUserId !== 'string') {
-    throw new ValidateError(
+    throw new TaskError(
       'タスクのユーザー ID が文字列ではありません',
-      'タスクの値が無効です'
+      'InvalidTask'
     );
   }
 }
@@ -83,10 +72,7 @@ export function assertValidTask(
   maybeTaskState: unknown
 ): asserts maybeTaskState is Task {
   if (!isUnknownRecord(maybeTaskState)) {
-    throw new ValidateError(
-      'タスクがオブジェクト型ではありません',
-      'タスクの値が正しくありません'
-    );
+    throw new TaskError('タスクがオブジェクト型ではありません', 'InvalidTask');
   }
 
   assertValidTaskId(maybeTaskState.id);

@@ -1,4 +1,4 @@
-import { ValidateError } from '~/utils/customError';
+import { TokenError } from './error';
 
 export function assertValidToken(
   token: unknown
@@ -6,25 +6,22 @@ export function assertValidToken(
   if (token === undefined) return;
 
   if (typeof token !== 'string') {
-    throw new ValidateError(
-      '`token` が文字列ではありません',
-      'トークンの値が無効です'
-    );
+    throw new TokenError('トークンが文字列ではありません', 'InvalidToken');
   }
 
   if (!/^[0-9a-zA-Z-._~+/]+=*$/.test(token)) {
-    throw new ValidateError(
-      '`token` は token68 の形式である必要があります',
-      'トークンの値が無効です'
+    throw new TokenError(
+      'トークンは token68 の形式である必要があります',
+      'InvalidToken'
     );
   }
 }
 
 export function checkAndGetBearerToken(value: unknown): string {
   if (typeof value !== 'string') {
-    throw new ValidateError(
+    throw new TokenError(
       'bearer token が文字列ではありません。設定されていない可能性があります。',
-      'bearer token が正しい値ではありません'
+      'InvalidToken'
     );
   }
 
@@ -33,10 +30,7 @@ export function checkAndGetBearerToken(value: unknown): string {
   const token = matchedToken?.groups?.token;
 
   if (!token) {
-    throw new ValidateError(
-      'token が見つかりませんでした。',
-      'bearer token が正しい値ではありません'
-    );
+    throw new TokenError('token が見つかりませんでした。', 'InvalidToken');
   }
   assertValidToken(token);
 

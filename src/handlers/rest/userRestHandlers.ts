@@ -1,9 +1,9 @@
 import { rest } from 'msw';
 
-import * as user from '~/core/features/user';
-import * as auth from '~/core/features/auth';
-import { CustomError, ValidateError } from '~/utils/customError';
-import { HttpError } from '~/utils/httpError';
+import * as userFeature from '~/core/features/user';
+import * as tokenFeature from '~/core/features/token';
+
+import { error2HttpErrorResponse } from './error';
 
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
 import type { UnknownRecord } from '~/utils/types';
@@ -12,75 +12,41 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
   const userRestHandlers = [
     rest.post<UnknownRecord>('/api/users/register', async (req, res, ctx) => {
       try {
-        user.assertValidUserName(req.body.username);
-        user.assertValidPassword(req.body.password);
-      } catch (error) {
-        if (error instanceof ValidateError) {
-          return res(ctx.status(400), ctx.json(error.toJson()));
-        }
-
-        const err = new CustomError(
-          'バリデーション時に意図しないエラーが発生しました',
-          'ユーザー名またはパスワードが無効な値です'
-        );
-        return res(ctx.status(400), ctx.json(err.toJson()));
-      }
-
-      try {
+        userFeature.assertValidUserName(req.body.username);
+        userFeature.assertValidPassword(req.body.password);
         const userInfo = {
           username: req.body.username,
           password: req.body.password,
         };
 
-        const result = await user.registerUser({
+        const result = await userFeature.registerUser({
           input: userInfo,
           state: globalStorage.globalState,
         });
         globalStorage.updateGlobalState(result);
-      } catch (error) {
-        if (error instanceof HttpError) {
-          return res(ctx.status(error.code), ctx.json(error.toJson()));
-        }
 
-        const err = new HttpError(
-          500,
-          '処理時に予期しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
+        return res(
+          ctx.status(200),
+          ctx.json({
+            success: true,
+          })
         );
-        return res(ctx.status(err.code), ctx.json(err.toJson()));
+      } catch (error) {
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
       }
-
-      return res(
-        ctx.status(200),
-        ctx.json({
-          success: true,
-        })
-      );
     }),
 
     rest.post<UnknownRecord>('/api/users/login', async (req, res, ctx) => {
       try {
-        user.assertValidUserName(req.body.username);
-        user.assertValidPassword(req.body.password);
-      } catch (error) {
-        if (error instanceof ValidateError) {
-          return res(ctx.status(400), ctx.json(error.toJson()));
-        }
-
-        const err = new CustomError(
-          'バリデーション時に意図しないエラーが発生しました',
-          'ユーザー名またはパスワードが無効な値です'
-        );
-        return res(ctx.status(400), ctx.json(err.toJson()));
-      }
-
-      try {
+        userFeature.assertValidUserName(req.body.username);
+        userFeature.assertValidPassword(req.body.password);
         const userInfo = {
           username: req.body.username,
           password: req.body.password,
         };
 
-        const result = await user.loginUser({
+        const result = await userFeature.loginUser({
           input: userInfo,
           state: globalStorage.globalState,
         });
@@ -94,50 +60,34 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
           })
         );
       } catch (error) {
-        if (error instanceof HttpError) {
-          return res(ctx.status(error.code), ctx.json(error.toJson()));
-        }
-
-        const err = new HttpError(
-          500,
-          '処理時に予期しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
-        );
-        return res(ctx.status(err.code), ctx.json(err.toJson()));
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
 
     rest.post('/api/users/logout', async (req, res, ctx) => {
       try {
-        const authResult = await auth.authenticateToken({
+        const authResult = await tokenFeature.authenticateToken({
           input: { maybeBearerToken: req.headers.get('Authorization') },
           state: globalStorage.globalState,
         });
 
-        const result = await user.logoutUser({
+        const result = await userFeature.logoutUser({
           input: { user: authResult.output.user },
           state: globalStorage.globalState,
         });
         globalStorage.updateGlobalState(result);
-      } catch (error) {
-        if (error instanceof HttpError) {
-          return res(ctx.status(error.code), ctx.json(error.toJson()));
-        }
 
-        const err = new HttpError(
-          500,
-          '処理時に予期しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
+        return res(
+          ctx.status(200),
+          ctx.json({
+            success: true,
+          })
         );
-        return res(ctx.status(err.code), ctx.json(err.toJson()));
+      } catch (error) {
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
       }
-
-      return res(
-        ctx.status(200),
-        ctx.json({
-          success: true,
-        })
-      );
     }),
   ];
 

@@ -15,7 +15,7 @@ export class HttpError extends CustomError {
     return {
       code: this.code,
       message: this.message,
-      display_message: this.display_message,
+      display_message: this.code,
     };
   }
 }

@@ -1,30 +1,23 @@
-/**
- * エラークラス、エラーメッセージが確認用と表示用で分かれている。
- */
-export class CustomError extends Error {
-  display_message: string;
+export type CommonErrorCode = 'ValidateError' | 'UnexpectedError';
 
-  constructor(message: string, display_message?: string) {
+/**
+ * エラークラス
+ */
+export class CustomError<T extends string = string> extends Error {
+  code: T | CommonErrorCode;
+
+  constructor(message: string, code: T | CommonErrorCode) {
     super(message);
     // 開発者用のエラーメッセージ
     this.message = message;
-    // 表示用のエラーメッセージ
-    this.display_message = display_message || message;
+    // アプリのエラーコード
+    this.code = code;
   }
 
   toJson() {
     return {
+      code: this.code,
       message: this.message,
-      display_message: this.display_message,
     };
-  }
-}
-
-/**
- * validation 時のエラー、これ以外は 500 で返すことにする
- */
-export class ValidateError extends CustomError {
-  constructor(message: string, display_message: string) {
-    super(message, display_message);
   }
 }

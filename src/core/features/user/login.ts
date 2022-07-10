@@ -1,7 +1,8 @@
 import { Base64 } from 'js-base64';
 
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
-import { HttpError } from '~/utils/httpError';
+
+import { UserError } from './error';
 
 import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { GlobalState } from '~/core/globalState';
@@ -26,18 +27,16 @@ export async function loginUser(
 
   const targetUser = state.users.find((u) => u.username === input.username);
   if (!targetUser) {
-    throw new HttpError(
-      404,
+    throw new UserError(
       `ユーザー ${input.username} が存在しません`,
-      '該当するユーザーが見つかりませんでした'
+      'UserNotFound'
     );
   }
 
   if (targetUser.password !== input.password) {
-    throw new HttpError(
-      401,
+    throw new UserError(
       `ユーザー ${input.username} は見つかりましたが、パスワード ${input.password} が正しくありません`,
-      'ユーザー名もしくはパスワードが間違えています。もう一度入力してください。'
+      'MismatchedPassword'
     );
   }
 

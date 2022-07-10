@@ -1,9 +1,9 @@
 import { rest } from 'msw';
 
-import * as authFeature from '~/core/features/auth';
+import * as tokenFeature from '~/core/features/token';
 import * as taskFeature from '~/core/features/task';
-import { HttpError } from '~/utils/httpError';
-import { ValidateError } from '~/utils/customError';
+
+import { error2HttpErrorResponse } from './error';
 
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
 import type { UnknownRecord } from '~/utils/types';
@@ -11,9 +11,8 @@ import type { UnknownRecord } from '~/utils/types';
 export function createUserRestHandlers(globalStorage: GlobalStorage) {
   const taskRestHandlers = [
     rest.get('/api/tasks', async (req, res, ctx) => {
-      let tasks: taskFeature.Task[];
       try {
-        const authResult = await authFeature.authenticateToken({
+        const authResult = await tokenFeature.authenticateToken({
           state: globalStorage.globalState,
           input: {
             maybeBearerToken: req.headers.get('Authentication'),
@@ -26,27 +25,18 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
             user: authResult.output.user,
           },
         });
-        tasks = result.output.tasks;
+        const tasks = result.output.tasks;
+
+        return res(ctx.status(200), ctx.json(tasks));
       } catch (error) {
-        if (error instanceof HttpError) {
-          return res(ctx.status(error.code), ctx.json(error.toJson()));
-        }
-
-        const err = new HttpError(
-          500,
-          '処理時に予期しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
-        );
-        return res(ctx.status(err.code), ctx.json(err.toJson()));
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
       }
-
-      return res(ctx.status(200), ctx.json(tasks));
     }),
 
     rest.post<UnknownRecord>('/api/tasks', async (req, res, ctx) => {
-      let task: taskFeature.Task;
       try {
-        const authResult = await authFeature.authenticateToken({
+        const authResult = await tokenFeature.authenticateToken({
           state: globalStorage.globalState,
           input: {
             maybeBearerToken: req.headers.get('Authentication'),
@@ -68,25 +58,14 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
             task: inputTask,
           },
         });
-        task = result.output.task;
+        const task = result.output.task;
         globalStorage.updateGlobalState(result.state);
+
+        return res(ctx.status(200), ctx.json(task));
       } catch (error) {
-        if (error instanceof HttpError) {
-          return res(ctx.status(error.code), ctx.json(error.toJson()));
-        }
-        if (error instanceof ValidateError) {
-          return res(ctx.status(400), ctx.json(error.toJson()));
-        }
-
-        const err = new HttpError(
-          500,
-          '処理時に予期しないエラーが発生しました',
-          'サーバー内でエラーが発生しました'
-        );
-        return res(ctx.status(err.code), ctx.json(err.toJson()));
+        const response = error2HttpErrorResponse(error);
+        return res(ctx.status(response.status), ctx.json(response.body));
       }
-
-      return res(ctx.status(200), ctx.json(task));
     }),
   ];
 

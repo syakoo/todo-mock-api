@@ -1,7 +1,7 @@
-import { HttpError } from '~/utils/httpError';
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
 import { checkAndGetBearerToken } from './validator';
+import { TokenError } from './error';
 
 import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { UserState } from '~/core/features/user';
@@ -23,31 +23,19 @@ export async function authenticateToken(
   const cloneState = deepCopyWithWriteable(state);
 
   if (input.maybeBearerToken === null) {
-    throw new HttpError(
-      401,
+    throw new TokenError(
       'リスエストヘッダに Authorization が存在しません',
-      'トークンが必須です'
+      'TokenRequired'
     );
   }
 
-  let token: string;
-  try {
-    token = checkAndGetBearerToken(input.maybeBearerToken);
-  } catch (error) {
-    console.error(error);
-    throw new HttpError(
-      400,
-      `トークンのバリデーションに失敗しました`,
-      'トークンが不正な値です'
-    );
-  }
+  const token = checkAndGetBearerToken(input.maybeBearerToken);
 
   const user = cloneState.users.find((u) => u.token === token);
   if (!user) {
-    throw new HttpError(
-      401,
+    throw new TokenError(
       'トークンの値に該当するユーザーが見つかりませんでした',
-      'トークンの値が無効です'
+      'MismatchedToken'
     );
   }
 
