@@ -4,6 +4,7 @@ import { TaskError } from './error';
 
 import type { Task, TaskState } from './types';
 import type { UnknownRecord } from '~/utils/types';
+import type { IncomingPartialTask } from './updateTask';
 
 export function assertValidTaskId(
   maybeTaskId: unknown
@@ -88,4 +89,19 @@ export function assertValidTaskState(
 ): asserts maybeTaskState is TaskState {
   assertValidTask(maybeTaskState);
   assertValidTaskUserId((maybeTaskState as unknown as UnknownRecord).userId);
+}
+
+export function assertValidIncomingPartialTask(
+  maybeIncomingPartialTask: unknown
+): asserts maybeIncomingPartialTask is IncomingPartialTask {
+  if (!isUnknownRecord(maybeIncomingPartialTask)) {
+    throw new TaskError('タスクがオブジェクト型ではありません', 'InvalidTask');
+  }
+
+  if ('title' in maybeIncomingPartialTask) {
+    assertValidTaskTitle(maybeIncomingPartialTask.title);
+  }
+  if ('detail' in maybeIncomingPartialTask) {
+    assertValidTaskDetail(maybeIncomingPartialTask.detail);
+  }
 }
