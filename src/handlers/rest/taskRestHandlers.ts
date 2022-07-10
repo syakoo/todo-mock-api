@@ -119,6 +119,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         });
         const task = result.output.task;
 
+        globalStorage.updateGlobalState(result.state);
         return res(ctx.status(200), ctx.json(task));
       } catch (error) {
         const response = error2HttpErrorResponse(error);
