@@ -12,7 +12,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
   const taskRestHandlers = [
     rest.get('/api/tasks', async (req, res, ctx) => {
       try {
-        const authResult = await tokenFeature.authenticateToken({
+        const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
             maybeBearerToken: req.headers.get('Authentication'),
@@ -22,7 +22,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         const result = await taskFeature.getTasks({
           state: globalStorage.globalState,
           input: {
-            user: authResult.output.user,
+            user,
           },
         });
         const tasks = result.output.tasks;
@@ -36,7 +36,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
 
     rest.post<UnknownRecord>('/api/tasks', async (req, res, ctx) => {
       try {
-        const authResult = await tokenFeature.authenticateToken({
+        const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
             maybeBearerToken: req.headers.get('Authentication'),
@@ -54,7 +54,7 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         const result = await taskFeature.addTask({
           state: globalStorage.globalState,
           input: {
-            user: authResult.output.user,
+            user: user,
             task: inputTask,
           },
         });

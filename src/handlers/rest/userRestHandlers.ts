@@ -67,13 +67,13 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
 
     rest.post('/api/users/logout', async (req, res, ctx) => {
       try {
-        const authResult = await tokenFeature.authenticateToken({
+        const user = await tokenFeature.getUserFromToken({
           input: { maybeBearerToken: req.headers.get('Authorization') },
           state: globalStorage.globalState,
         });
 
         const result = await userFeature.logoutUser({
-          input: { user: authResult.output.user },
+          input: { user },
           state: globalStorage.globalState,
         });
         globalStorage.updateGlobalState(result);

@@ -6,19 +6,13 @@ import { TokenError } from './error';
 import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { UserState } from '~/core/features/user';
 
-interface AuthenticateTokenInput {
+interface GetUserFromTokenInput {
   maybeBearerToken: string | null;
 }
 
-interface AuthenticateTokenReturn {
-  output: {
-    user: UserState;
-  };
-}
-
-export async function authenticateToken(
-  props: WithDBStateReadonlyInput<AuthenticateTokenInput>
-): Promise<AuthenticateTokenReturn> {
+export async function getUserFromToken(
+  props: WithDBStateReadonlyInput<GetUserFromTokenInput>
+): Promise<UserState> {
   const { input, state } = props;
   const cloneState = deepCopyWithWriteable(state);
 
@@ -39,9 +33,5 @@ export async function authenticateToken(
     );
   }
 
-  return {
-    output: {
-      user,
-    },
-  };
+  return user;
 }
