@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import logo from './logo.svg';
 import './App.css';
@@ -8,6 +8,16 @@ function App() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState<string | null>(null);
+
+  const healthCheck = async () => {
+    const result = await fetch('/api/health', {
+      method: 'get',
+    })
+      .then((res) => res.json())
+      .then((res) => JSON.stringify(res));
+
+    setRes(result);
+  };
 
   const register = async () => {
     const result = await fetch('/api/users/register', {
@@ -48,6 +58,12 @@ function App() {
 
     setRes(result);
   };
+
+  useEffect(() => {
+    if (!res) {
+      healthCheck();
+    }
+  }, [res]);
 
   return (
     <div className="App">
