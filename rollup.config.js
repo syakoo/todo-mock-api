@@ -2,6 +2,7 @@
 import path from 'path';
 
 import typescript from '@rollup/plugin-typescript';
+import ttypescript from 'ttypescript';
 
 import pkg from './package.json';
 
@@ -28,6 +29,7 @@ const config = {
       tsconfig: path.resolve(__dirname, './tsconfig.json'),
       declaration: true,
       declarationDir: 'types',
+      typescript: ttypescript,
     }),
   ],
 };
