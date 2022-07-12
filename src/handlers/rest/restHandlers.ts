@@ -2,7 +2,8 @@ import { rest } from 'msw';
 
 import { createGlobalStorage, GlobalState } from '~/core/globalState';
 
-import { createUserRestHandlers } from './userRestHandlers';
+import { createTaskRestHandlers } from './task/taskRestHandlers';
+import { createUserRestHandlers } from './user/userRestHandlers';
 
 interface HanlderOption {
   initialState?: GlobalState;
@@ -16,6 +17,7 @@ export function createRestHandlers(option?: HanlderOption) {
       return res(ctx.status(200), ctx.json({ message: "I'm healthy!" }));
     }),
     ...createUserRestHandlers(globalStorage),
+    ...createTaskRestHandlers(globalStorage),
   ];
 
   return restHandlers;

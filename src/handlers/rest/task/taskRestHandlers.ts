@@ -3,12 +3,12 @@ import { rest } from 'msw';
 import * as taskFeature from '~/core/features/task';
 import * as tokenFeature from '~/core/features/token';
 
-import { error2HttpErrorResponse } from './error';
+import { error2HttpErrorResponse } from '../error';
 
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
 import type { UnknownRecord } from '~/utils/types';
 
-export function createUserRestHandlers(globalStorage: GlobalStorage) {
+export function createTaskRestHandlers(globalStorage: GlobalStorage) {
   const taskRestHandlers = [
     rest.get('/api/tasks', async (req, res, ctx) => {
       try {

@@ -3,7 +3,7 @@ import { rest } from 'msw';
 import * as tokenFeature from '~/core/features/token';
 import * as userFeature from '~/core/features/user';
 
-import { error2HttpErrorResponse } from './error';
+import { error2HttpErrorResponse } from '../error';
 
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
 import type { UnknownRecord } from '~/utils/types';
