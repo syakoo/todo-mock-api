@@ -2,11 +2,11 @@ import { setupWorker } from 'msw';
 
 import { createRestHandlers } from './handlers/rest';
 
+import type { GlobalState } from './core/globalState';
 import type {
   AppErrorCode,
   HTTPErrorResponseBody,
 } from './handlers/rest/error';
-import type { GlobalState } from './core/globalState';
 
 interface WorkerOption {
   type?: 'rest';

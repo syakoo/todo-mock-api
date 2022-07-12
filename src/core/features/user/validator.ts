@@ -1,5 +1,5 @@
-import { isUnknownRecord } from '~/utils/validator';
 import { assertValidToken } from '~/core/features/token';
+import { isUnknownRecord } from '~/utils/validator';
 
 import { UserError } from './error';
 

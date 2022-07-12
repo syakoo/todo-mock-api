@@ -1,10 +1,10 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 import { sha256 } from '~/utils/sha256';
 
+import type { Task } from './types';
+import type { UserState } from '~/core/features/user';
 import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '~/core/types';
-import type { UserState } from '~/core/features/user';
-import type { Task } from './types';
 
 type InputTask = Omit<Task, 'id' | 'created_at' | 'is_complete'>;
 

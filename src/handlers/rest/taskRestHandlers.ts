@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
-import * as tokenFeature from '~/core/features/token';
 import * as taskFeature from '~/core/features/task';
+import * as tokenFeature from '~/core/features/token';
 
 import { error2HttpErrorResponse } from './error';
 

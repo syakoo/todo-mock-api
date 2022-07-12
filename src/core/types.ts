@@ -1,5 +1,5 @@
-import type { DeepReadonly } from '~/utils/types';
 import type { GlobalState } from './globalState/globalState';
+import type { DeepReadonly } from '~/utils/types';
 
 export type WithDBStateInput<T> = {
   input: T;

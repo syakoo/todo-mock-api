@@ -3,8 +3,8 @@ import { isUnknownRecord } from '~/utils/validator';
 import { TaskError } from './error';
 
 import type { Task, TaskState } from './types';
-import type { UnknownRecord } from '~/utils/types';
 import type { IncomingPartialTask } from './updateTask';
+import type { UnknownRecord } from '~/utils/types';
 
 export function assertValidTaskId(
   maybeTaskId: unknown

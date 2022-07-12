@@ -4,8 +4,8 @@ import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
 import { UserError } from './error';
 
-import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { GlobalState } from '~/core/globalState';
+import type { WithDBStateReadonlyInput } from '~/core/types';
 
 interface LoginUserInput {
   username: string;

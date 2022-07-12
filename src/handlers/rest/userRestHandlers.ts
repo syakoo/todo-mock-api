@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 
-import * as userFeature from '~/core/features/user';
 import * as tokenFeature from '~/core/features/token';
+import * as userFeature from '~/core/features/user';
 
 import { error2HttpErrorResponse } from './error';
 

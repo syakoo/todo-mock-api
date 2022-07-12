@@ -1,8 +1,8 @@
 import { assertValidUserState } from '~/core/features/user/validator';
 
-import type { UnknownRecord } from '~/utils/types';
-import type { UserState } from '~/core/features/user';
 import type { TaskState } from '~/core/features/task';
+import type { UserState } from '~/core/features/user';
+import type { UnknownRecord } from '~/utils/types';
 
 export interface GlobalState {
   users: UserState[];

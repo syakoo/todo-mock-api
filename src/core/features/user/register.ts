@@ -3,8 +3,8 @@ import { sha256 } from '~/utils/sha256';
 
 import { UserError } from './error';
 
-import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '../../types';
+import type { GlobalState } from '~/core/globalState';
 
 interface RegisterUserInput {
   username: string;

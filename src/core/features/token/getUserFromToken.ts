@@ -1,10 +1,10 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
-import { checkAndGetBearerToken } from './validator';
 import { TokenError } from './error';
+import { checkAndGetBearerToken } from './validator';
 
-import type { WithDBStateReadonlyInput } from '~/core/types';
 import type { UserState } from '~/core/features/user';
+import type { WithDBStateReadonlyInput } from '~/core/types';
 
 interface GetUserFromTokenInput {
   maybeBearerToken: string | null;

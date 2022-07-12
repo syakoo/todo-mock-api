@@ -1,8 +1,8 @@
 import { type CommonErrorCode, CustomError } from '~/utils/customError';
 
-import type { UserErrorCode } from '~/core/features/user';
-import type { TokenErrorCode } from '~/core/features/token';
 import type { TaskErrorCode } from '~/core/features/task/error';
+import type { TokenErrorCode } from '~/core/features/token';
+import type { UserErrorCode } from '~/core/features/user';
 
 export type AppErrorCode =
   | CommonErrorCode

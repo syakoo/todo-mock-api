@@ -2,9 +2,9 @@ import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
 import { TaskError } from './error';
 
-import type { WithDBStateReadonlyInput } from '~/core/types';
-import type { UserState } from '~/core/features/user';
 import type { Task } from './types';
+import type { UserState } from '~/core/features/user';
+import type { WithDBStateReadonlyInput } from '~/core/types';
 
 interface GetTaskInput {
   user: UserState;

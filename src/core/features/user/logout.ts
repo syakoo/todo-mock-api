@@ -1,8 +1,8 @@
 import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
+import type { UserState } from './types';
 import type { GlobalState } from '~/core/globalState';
 import type { WithDBStateReadonlyInput } from '~/core/types';
-import type { UserState } from './types';
 
 interface LogoutUserInput {
   user: UserState;

@@ -2,10 +2,10 @@ import { deepCopyWithWriteable } from '~/utils/deepCopy';
 
 import { TaskError } from './error';
 
-import type { WithDBStateReadonlyInput } from '~/core/types';
-import type { UserState } from '~/core/features/user';
 import type { Task } from './types';
+import type { UserState } from '~/core/features/user';
 import type { GlobalState } from '~/core/globalState';
+import type { WithDBStateReadonlyInput } from '~/core/types';
 
 const changeableTaskParamKey = ['title', 'detail'] as const;
 type ChangeableTaskParamKey = typeof changeableTaskParamKey[number];
