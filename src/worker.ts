@@ -1,15 +1,16 @@
 import { setupWorker } from 'msw';
 
-import { createGlobalStorage, type GlobalState } from './core/globalState';
+import { createGlobalStorage } from './core/globalState';
 import { createRestHandlers } from './handlers/rest';
 
-export interface WorkerOption {
+import type { GlobalStoreOption } from './core/globalState/globalStorage';
+
+export interface WorkerOption extends GlobalStoreOption {
   type?: 'rest';
-  initialState?: GlobalState;
 }
 
 export const startWorker = (option?: WorkerOption) => {
-  const globalStorage = createGlobalStorage(option?.initialState);
+  const globalStorage = createGlobalStorage(option);
 
   const worker = setupWorker(...createRestHandlers(globalStorage));
 

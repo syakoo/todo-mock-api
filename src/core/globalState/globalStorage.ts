@@ -9,13 +9,18 @@ import {
 import type { Store } from '~/store/types';
 import type { UnknownRecord } from '~/utils/types';
 
+export interface GlobalStoreOption {
+  initialState?: GlobalState;
+  storeType?: 'localStorage' | 'nothing';
+}
+
 export interface GlobalStorage {
   globalState: GlobalState;
   updateGlobalState: (state: GlobalState) => void;
 }
 
-export function createGlobalStorage(initialState?: GlobalState): GlobalStorage {
-  const store = initStore(initialState);
+export function createGlobalStorage(option?: GlobalStoreOption): GlobalStorage {
+  const store = initStore(option);
   let globalState = store.getData() as unknown as GlobalState;
 
   const updateGlobalState = (state: GlobalState) => {
@@ -31,13 +36,24 @@ export function createGlobalStorage(initialState?: GlobalState): GlobalStorage {
   };
 }
 
-function initStore(initialState?: GlobalState): Store<GlobalState> {
+function initStore(option?: GlobalStoreOption): Store<GlobalState> {
+  if (option?.storeType === 'nothing') {
+    return {
+      getData: () => {
+        return option?.initialState || defaultGlobalState;
+      },
+      setData: () => {
+        // don't anything
+      },
+    };
+  }
+
   // この時点では GlobalState は確定していない
   const store = setupLocalStorage<GlobalState>();
 
   try {
-    if (initialState) {
-      store.setData(initialState);
+    if (option?.initialState) {
+      store.setData(option.initialState);
     }
     if (!store.getData()) {
       store.setData(defaultGlobalState);
