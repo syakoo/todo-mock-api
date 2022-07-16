@@ -5,11 +5,11 @@ import { createGlobalStorage, GlobalState } from '~/core/globalState';
 import { createTaskRestHandlers } from './taskRestHandlers';
 import { createUserRestHandlers } from './userRestHandlers';
 
-interface HanlderOption {
+interface HandlerOption {
   initialState?: GlobalState;
 }
 
-export function createRestHandlers(option?: HanlderOption) {
+export function createRestHandlers(option?: HandlerOption) {
   const globalStorage = createGlobalStorage(option?.initialState);
 
   const restHandlers = [
