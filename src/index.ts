@@ -1,6 +1,13 @@
+export { startWorker, type WorkerOption } from './worker';
+
 export type { GlobalState } from './core/globalState';
 export type {
   AppErrorCode,
   HTTPErrorResponseBody,
-} from './handlers/rest/error';
-export { startWorker, type WorkerOption } from './worker';
+  ApiUsersLogin,
+  ApiUsersLogout,
+  ApiUsersRegister,
+  ApiTasks,
+  ApiTasksId,
+  ApiTasksIdCompletion,
+} from './handlers/rest';

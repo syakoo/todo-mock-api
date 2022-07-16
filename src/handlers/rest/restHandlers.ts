@@ -2,8 +2,8 @@ import { rest } from 'msw';
 
 import { createGlobalStorage, GlobalState } from '~/core/globalState';
 
-import { createTaskRestHandlers } from './task/taskRestHandlers';
-import { createUserRestHandlers } from './user/userRestHandlers';
+import { createTaskRestHandlers } from './taskRestHandlers';
+import { createUserRestHandlers } from './userRestHandlers';
 
 interface HanlderOption {
   initialState?: GlobalState;

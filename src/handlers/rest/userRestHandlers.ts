@@ -1,16 +1,34 @@
-import { rest } from 'msw';
+import { type PathParams, rest, DefaultBodyType } from 'msw';
 
 import * as tokenFeature from '~/core/features/token';
 import * as userFeature from '~/core/features/user';
 
-import { error2HttpErrorResponse } from '../error';
+import { error2HttpErrorResponse, HTTPErrorResponseBody } from './error';
 
+import type { RestHandlersCreator } from './types';
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
-import type { UnknownRecord } from '~/utils/types';
 
-export function createUserRestHandlers(globalStorage: GlobalStorage) {
-  const userRestHandlers = [
-    rest.post<UnknownRecord>('/api/users/register', async (req, res, ctx) => {
+// __________
+// /api/users/register
+export interface ApiUsersRegister {
+  post: {
+    reqBody: {
+      username: string;
+      password: string;
+    };
+    resBody: {
+      success: boolean;
+    };
+  };
+}
+
+const createUsersRegisterHandlers: RestHandlersCreator = (globalStorage) => {
+  return [
+    rest.post<
+      ApiUsersRegister['post']['reqBody'],
+      PathParams,
+      ApiUsersRegister['post']['resBody'] | HTTPErrorResponseBody
+    >('/api/users/register', async (req, res, ctx) => {
       try {
         userFeature.assertValidUserName(req.body.username);
         userFeature.assertValidPassword(req.body.password);
@@ -36,8 +54,31 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
+  ];
+};
 
-    rest.post<UnknownRecord>('/api/users/login', async (req, res, ctx) => {
+// __________
+// /api/users/login
+export interface ApiUsersLogin {
+  post: {
+    reqBody: {
+      username: string;
+      password: string;
+    };
+    resBody: {
+      success: true;
+      token: string;
+    };
+  };
+}
+
+const createUsersLoginHandlers: RestHandlersCreator = (globalStorage) => {
+  return [
+    rest.post<
+      ApiUsersLogin['post']['reqBody'],
+      PathParams,
+      ApiUsersLogin['post']['resBody'] | HTTPErrorResponseBody
+    >('/api/users/login', async (req, res, ctx) => {
       try {
         userFeature.assertValidUserName(req.body.username);
         userFeature.assertValidPassword(req.body.password);
@@ -64,8 +105,29 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
         return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
+  ];
+};
 
-    rest.post('/api/users/logout', async (req, res, ctx) => {
+// __________
+// /api/users/logout
+export interface ApiUsersLogout {
+  post: {
+    reqHeaders: {
+      Authorization: string;
+    };
+    resBody: {
+      success: boolean;
+    };
+  };
+}
+
+const createUsersLogoutHandlers: RestHandlersCreator = (globalStorage) => {
+  return [
+    rest.post<
+      DefaultBodyType,
+      PathParams,
+      ApiUsersLogout['post']['resBody'] | HTTPErrorResponseBody
+    >('/api/users/logout', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           input: { maybeBearerToken: req.headers.get('Authorization') },
@@ -90,6 +152,14 @@ export function createUserRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
   ];
+};
 
-  return userRestHandlers;
+// __________
+// combine
+export function createUserRestHandlers(globalStorage: GlobalStorage) {
+  return [
+    ...createUsersRegisterHandlers(globalStorage),
+    ...createUsersLoginHandlers(globalStorage),
+    ...createUsersLogoutHandlers(globalStorage),
+  ];
 }

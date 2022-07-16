@@ -1,16 +1,35 @@
-import { rest } from 'msw';
+import { rest, type DefaultBodyType, type PathParams } from 'msw';
 
 import * as taskFeature from '~/core/features/task';
 import * as tokenFeature from '~/core/features/token';
 
-import { error2HttpErrorResponse } from '../error';
+import { error2HttpErrorResponse, type HTTPErrorResponseBody } from './error';
 
+import type { RestHandlersCreator } from './types';
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
-import type { UnknownRecord } from '~/utils/types';
 
-export function createTaskRestHandlers(globalStorage: GlobalStorage) {
-  const taskRestHandlers = [
-    rest.get('/api/tasks', async (req, res, ctx) => {
+// __________
+// /api/tasks
+export interface ApiTasks {
+  get: {
+    resBody: taskFeature.Task[];
+  };
+  post: {
+    reqBody: {
+      title: string;
+      detail?: string;
+    };
+    resBody: taskFeature.Task;
+  };
+}
+
+const createTasksHandlers: RestHandlersCreator = (globalStorage) => {
+  return [
+    rest.get<
+      DefaultBodyType,
+      PathParams,
+      ApiTasks['get']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -34,7 +53,11 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
 
-    rest.post<UnknownRecord>('/api/tasks', async (req, res, ctx) => {
+    rest.post<
+      ApiTasks['post']['reqBody'],
+      PathParams,
+      ApiTasks['post']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -67,8 +90,39 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
         return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
+  ];
+};
 
-    rest.get('/api/tasks/:taskId', async (req, res, ctx) => {
+// __________
+// /api/tasks/:taskId
+export interface ApiTasksId {
+  params: {
+    taskId: string;
+  };
+  get: {
+    resBody: taskFeature.Task;
+  };
+  patch: {
+    reqBody: {
+      title?: string;
+      detail?: string;
+    };
+    resBody: taskFeature.Task;
+  };
+  delete: {
+    resBody: {
+      success: boolean;
+    };
+  };
+}
+
+const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
+  return [
+    rest.get<
+      DefaultBodyType,
+      ApiTasksId['params'],
+      ApiTasksId['get']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -94,7 +148,11 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
 
-    rest.patch<UnknownRecord>('/api/tasks/:taskId', async (req, res, ctx) => {
+    rest.patch<
+      ApiTasksId['patch']['reqBody'],
+      ApiTasksId['params'],
+      ApiTasksId['patch']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -127,7 +185,11 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
 
-    rest.delete('/api/tasks/:taskId', async (req, res, ctx) => {
+    rest.delete<
+      DefaultBodyType,
+      ApiTasksId['params'],
+      ApiTasksId['delete']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -152,8 +214,32 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
         return res(ctx.status(response.status), ctx.json(response.body));
       }
     }),
+  ];
+};
 
-    rest.put('/api/tasks/:taskId/completion', async (req, res, ctx) => {
+// __________
+// /api/tasks/:taskId/completion
+export interface ApiTasksIdCompletion {
+  params: {
+    taskId: string;
+  };
+  put: {
+    resBody: taskFeature.Task;
+  };
+  delete: {
+    resBody: taskFeature.Task;
+  };
+}
+
+const createTasksIdCompletionHandlers: RestHandlersCreator = (
+  globalStorage
+) => {
+  return [
+    rest.put<
+      DefaultBodyType,
+      ApiTasksIdCompletion['params'],
+      ApiTasksIdCompletion['put']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks/:taskId/completion', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -181,7 +267,11 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
 
-    rest.delete('/api/tasks/:taskId/completion', async (req, res, ctx) => {
+    rest.delete<
+      DefaultBodyType,
+      ApiTasksIdCompletion['params'],
+      ApiTasksIdCompletion['delete']['resBody'] | HTTPErrorResponseBody
+    >('/api/tasks/:taskId/completion', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
@@ -209,6 +299,14 @@ export function createTaskRestHandlers(globalStorage: GlobalStorage) {
       }
     }),
   ];
+};
 
-  return taskRestHandlers;
+// __________
+// combine
+export function createTaskRestHandlers(globalStorage: GlobalStorage) {
+  return [
+    ...createTasksHandlers(globalStorage),
+    ...createTasksIdHandlers(globalStorage),
+    ...createTasksIdCompletionHandlers(globalStorage),
+  ];
 }
