@@ -1,4 +1,5 @@
 export { startWorker, type WorkerOption } from './worker';
+export * as client from './client';
 
 export type { GlobalState } from './core/globalState';
 export type {
@@ -12,3 +13,5 @@ export type {
   ApiTasksId,
   ApiTasksIdCompletion,
 } from './handlers/rest';
+export type { Task } from './core/features/task';
+export type { User } from './core/features/user';
