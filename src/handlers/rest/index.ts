@@ -1,4 +1,4 @@
-export { createRestHandlers } from './restHandlers';
+export { createRestHandlers, type ApiHealth } from './restHandlers';
 
 export type {
   ApiUsersRegister,
