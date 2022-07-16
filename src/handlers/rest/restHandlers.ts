@@ -1,13 +1,9 @@
 import { rest, type DefaultBodyType, type PathParams } from 'msw';
 
-import { createGlobalStorage, GlobalState } from '~/core/globalState';
-
 import { createTaskRestHandlers } from './taskRestHandlers';
 import { createUserRestHandlers } from './userRestHandlers';
 
-interface HandlerOption {
-  initialState?: GlobalState;
-}
+import type { GlobalStorage } from '~/core/globalState/globalStorage';
 
 export interface ApiHealth {
   get: {
@@ -17,9 +13,7 @@ export interface ApiHealth {
   };
 }
 
-export function createRestHandlers(option?: HandlerOption) {
-  const globalStorage = createGlobalStorage(option?.initialState);
-
+export function createRestHandlers(globalStorage: GlobalStorage) {
   const restHandlers = [
     rest.get<DefaultBodyType, PathParams, ApiHealth['get']['resBody']>(
       '/api/health',
