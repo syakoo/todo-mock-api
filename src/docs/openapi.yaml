@@ -1,4 +1,4 @@
-openapi: "3.0.3"
+openapi: '3.0.3'
 info:
   version: 0.0.1
   title: Todo Mock API
@@ -13,7 +13,7 @@ paths:
       summary: API の接続状態を返します
       security: []
       responses:
-        "200":
+        '200':
           description: 接続できています
           content:
             application/json:
@@ -34,22 +34,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/user"
+              $ref: '#/components/schemas/user'
       responses:
-        "200":
+        '200':
           description: ユーザーの登録に成功しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/success"
-        "409":
+                $ref: '#/components/schemas/success'
+        '409':
           description: 同じ名前のユーザーが既に存在します
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ConflictUserError"
+                $ref: '#/components/schemas/ConflictUserError'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
   /users/login:
     post:
@@ -62,34 +62,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/user"
+              $ref: '#/components/schemas/user'
       responses:
-        "200":
+        '200':
           description: ログインに成功しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/post_users_login_response"
-        "400":
+                $ref: '#/components/schemas/post_users_login_response'
+        '400':
           description: 不正なユーザーです
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/InvalidUserError"
-        "401":
+                $ref: '#/components/schemas/InvalidUserError'
+        '401':
           description: 認証に失敗しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MismatchedPasswordError"
-        "404":
+                $ref: '#/components/schemas/MismatchedPasswordError'
+        '404':
           description: ユーザーが見つかりませんでした
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserNotFoundError"
+                $ref: '#/components/schemas/UserNotFoundError'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
   /users/logout:
     post:
@@ -97,18 +97,18 @@ paths:
         - users
       summary: ログアウト
       responses:
-        "200":
+        '200':
           description: ログアウトに成功しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/success"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
+                $ref: '#/components/schemas/success'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
   /tasks:
     get:
@@ -116,18 +116,18 @@ paths:
         - tasks
       summary: タスク一覧を取得する
       responses:
-        "200":
+        '200':
           description: タスク一覧の取得に成功しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/tasks"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+                $ref: '#/components/schemas/tasks'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
     post:
       tags:
@@ -137,20 +137,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/task"
+              $ref: '#/components/schemas/task'
       responses:
-        "200":
+        '200':
           description: タスクの登録に成功しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
-        "400":
-          $ref: "#/components/responses/TokenOrTaskInvalidErrorResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/TokenOrTaskInvalidErrorResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
   /tasks/{task_id}:
     parameters:
@@ -159,26 +159,26 @@ paths:
         description: 対象のタスク id
         required: true
         schema:
-          $ref: "#/components/schemas/task_id"
+          $ref: '#/components/schemas/task_id'
     get:
       tags:
         - tasks
       summary: 指定した id のタスク情報を取得する
       responses:
-        "200":
+        '200':
           description: 指定した id のタスクを取得できました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "404":
-          $ref: "#/components/responses/TaskNotFoundResponse"
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '404':
+          $ref: '#/components/responses/TaskNotFoundResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
     patch:
       tags:
         - tasks
@@ -187,41 +187,41 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/task"
+              $ref: '#/components/schemas/task'
       responses:
-        "200":
+        '200':
           description: 指定した id のタスクを更新できました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
-        "400":
-          $ref: "#/components/responses/TokenOrTaskInvalidErrorResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "404":
-          $ref: "#/components/responses/TaskNotFoundResponse"
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/TokenOrTaskInvalidErrorResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '404':
+          $ref: '#/components/responses/TaskNotFoundResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
     delete:
       tags:
         - tasks
       summary: 指定した id のタスクを削除する
       responses:
-        "200":
+        '200':
           description: 指定した id のタスクを削除できました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/success"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "404":
-          $ref: "#/components/responses/TaskNotFoundResponse"
+                $ref: '#/components/schemas/success'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '404':
+          $ref: '#/components/responses/TaskNotFoundResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
   /tasks/{task_id}/completion:
     parameters:
@@ -230,52 +230,52 @@ paths:
         description: 対象のタスク id
         required: true
         schema:
-          $ref: "#/components/schemas/task_id"
+          $ref: '#/components/schemas/task_id'
     put:
       tags:
         - tasks
       summary: 指定した id のタスクを完了状態にする
       responses:
-        "200":
+        '200':
           description: 指定した id のタスクを完了状態にしました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "404":
-          $ref: "#/components/responses/TaskNotFoundResponse"
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '404':
+          $ref: '#/components/responses/TaskNotFoundResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
     delete:
       tags:
         - tasks
       summary: 指定した id のタスクの完了状態を解除する
       responses:
-        "200":
+        '200':
           description: 指定した id のタスクを完了状態を解除しました
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/task"
-        "400":
-          $ref: "#/components/responses/TokenInvalidResponse"
-        "401":
-          $ref: "#/components/responses/DefaultUnauthorizedErrorResponse"
-        "404":
-          $ref: "#/components/responses/TaskNotFoundResponse"
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/TokenInvalidResponse'
+        '401':
+          $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
+        '404':
+          $ref: '#/components/responses/TaskNotFoundResponse'
         default:
-          $ref: "#/components/responses/DefaultErrorResponse"
+          $ref: '#/components/responses/DefaultErrorResponse'
 
 components:
   schemas:
     token:
       description: 認証用トークン. token68
       type: string
-      pattern: "/^[0-9a-zA-Z-._~+/]+=*$/"
+      pattern: '/^[0-9a-zA-Z-._~+/]+=*$/'
     task_id:
       readOnly: true
       description: id
@@ -303,7 +303,7 @@ components:
       properties:
         id:
           readOnly: true
-          $ref: "#/components/schemas/task_id"
+          $ref: '#/components/schemas/task_id'
         title:
           description: タイトル
           type: string
@@ -325,7 +325,7 @@ components:
       description: タスクのリスト
       type: array
       items:
-        $ref: "#/components/schemas/task"
+        $ref: '#/components/schemas/task'
     success:
       description: 成功
       type: object
@@ -335,7 +335,7 @@ components:
           example: true
           type: boolean
     post_users_login_response:
-      description: "ログイン成功時のレスポンス"
+      description: 'ログイン成功時のレスポンス'
       type: object
       properties:
         success:
@@ -343,7 +343,7 @@ components:
           example: true
           type: boolean
         token:
-          $ref: "#/components/schemas/token"
+          $ref: '#/components/schemas/token'
     Error:
       description: エラー
       type: object
@@ -362,7 +362,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "ConflictUser"
+            - 'ConflictUser'
         message:
           description: エラーメッセージ
           type: string
@@ -374,7 +374,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "MismatchedPassword"
+            - 'MismatchedPassword'
         message:
           description: エラーメッセージ
           type: string
@@ -386,7 +386,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "InvalidUser"
+            - 'InvalidUser'
         message:
           description: エラーメッセージ
           type: string
@@ -398,7 +398,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "UserNotFound"
+            - 'UserNotFound'
         message:
           description: エラーメッセージ
           type: string
@@ -410,7 +410,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "InvalidToken"
+            - 'InvalidToken'
         message:
           description: エラーメッセージ
           type: string
@@ -422,7 +422,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "TokenRequired"
+            - 'TokenRequired'
         message:
           description: エラーメッセージ
           type: string
@@ -434,7 +434,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "MismatchedToken"
+            - 'MismatchedToken'
         message:
           description: エラーメッセージ
           type: string
@@ -446,7 +446,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "TaskNotFound"
+            - 'TaskNotFound'
         message:
           description: エラーメッセージ
           type: string
@@ -458,7 +458,7 @@ components:
           description: エラーコード
           type: string
           enum:
-            - "InvalidTask"
+            - 'InvalidTask'
         message:
           description: エラーメッセージ
           type: string
@@ -469,35 +469,35 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
     DefaultUnauthorizedErrorResponse:
       description: 認証に失敗しました
       content:
         application/json:
           schema:
             oneOf:
-              - $ref: "#/components/schemas/MismatchedTokenError"
-              - $ref: "#/components/schemas/TokenRequiredError"
+              - $ref: '#/components/schemas/MismatchedTokenError'
+              - $ref: '#/components/schemas/TokenRequiredError'
     TaskNotFoundResponse:
       description: 対象のタスクが見つかりませんでした
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/TaskNotFoundError"
+            $ref: '#/components/schemas/TaskNotFoundError'
     TokenInvalidResponse:
       description: トークンの値が不正です
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/InvalidTokenError"
+            $ref: '#/components/schemas/InvalidTokenError'
     TokenOrTaskInvalidErrorResponse:
       description: タスクまたはトークンの値が不正です
       content:
         application/json:
           schema:
             oneOf:
-              - $ref: "#/components/schemas/InvalidTokenError"
-              - $ref: "#/components/schemas/InvalidTaskError"
+              - $ref: '#/components/schemas/InvalidTokenError'
+              - $ref: '#/components/schemas/InvalidTaskError'
 
   securitySchemes:
     Bearer:

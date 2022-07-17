@@ -1,0 +1,11 @@
+import type { Task, TaskState } from './types';
+import type { IncomingPartialTask } from './updateTask';
+export declare function assertValidTaskId(maybeTaskId: unknown): asserts maybeTaskId is string;
+export declare function assertValidTaskTitle(maybeTaskTitle: unknown): asserts maybeTaskTitle is string;
+export declare function assertValidTaskDetail(maybeTaskDetail: unknown): asserts maybeTaskDetail is string | undefined;
+export declare function assertValidTaskIsComplete(maybeTaskIsComplete: unknown): asserts maybeTaskIsComplete is boolean;
+export declare function assertValidTaskCreatedAt(maybeTaskIsCreatedAt: unknown): asserts maybeTaskIsCreatedAt is string;
+export declare function assertValidTaskUserId(maybeTaskIsUserId: unknown): asserts maybeTaskIsUserId is string;
+export declare function assertValidTask(maybeTaskState: unknown): asserts maybeTaskState is Task;
+export declare function assertValidTaskState(maybeTaskState: unknown): asserts maybeTaskState is TaskState;
+export declare function assertValidIncomingPartialTask(maybeIncomingPartialTask: unknown): asserts maybeIncomingPartialTask is IncomingPartialTask;
