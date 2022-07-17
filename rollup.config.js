@@ -2,10 +2,16 @@
 import path from 'path';
 
 import typescript from '@rollup/plugin-typescript';
+import ttypescript from 'ttypescript';
 
 import pkg from './package.json';
 
-console.log(pkg.main);
+const banner = `/*!
+  ${pkg.name} v${pkg.version}
+  ${pkg.homepage}
+  Released under the ${pkg.license} License.
+*/`;
+
 /**
  * @type {import('rollup').RollupOptions}
  */
@@ -16,11 +22,13 @@ const config = {
       file: pkg.main,
       format: 'cjs',
       sourcemap: 'inline',
+      banner,
     },
     {
       file: pkg.module,
       format: 'es',
       sourcemap: 'inline',
+      banner,
     },
   ],
   plugins: [
@@ -28,6 +36,7 @@ const config = {
       tsconfig: path.resolve(__dirname, './tsconfig.json'),
       declaration: true,
       declarationDir: 'types',
+      typescript: ttypescript,
     }),
   ],
 };

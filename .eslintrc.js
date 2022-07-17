@@ -3,7 +3,7 @@ const { defineConfig } = require('eslint-define-config');
 
 module.exports = defineConfig({
   env: {
-    es2021: true,
+    browser: true,
     node: true,
   },
   extends: [
@@ -22,6 +22,7 @@ module.exports = defineConfig({
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
+        project: ['tsconfig.json', 'packages/todo-mock-api/tsconfig.json'],
       },
     },
   },
@@ -42,6 +43,9 @@ module.exports = defineConfig({
           'object',
         ],
         'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+        },
       },
     ],
   },

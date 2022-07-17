@@ -1,9 +1,17 @@
-import { setupWorker } from 'msw';
+export { startWorker, type WorkerOption } from './worker';
+export * as client from './client';
 
-import { restHandlers } from './handlers/rest';
-
-export const startWorker = () => {
-  const worker = setupWorker(...restHandlers);
-
-  worker.start();
-};
+export type { GlobalState } from './core/globalState';
+export type {
+  AppErrorCode,
+  HTTPErrorResponseBody,
+  ApiHealth,
+  ApiUsersLogin,
+  ApiUsersLogout,
+  ApiUsersRegister,
+  ApiTasks,
+  ApiTasksId,
+  ApiTasksIdCompletion,
+} from './handlers/rest';
+export type { Task } from './core/features/task';
+export type { User } from './core/features/user';
