@@ -1,5 +1,5 @@
 /*!
-  @syakoo/todo-mock-api v0.0.0
+  @syakoo/todo-mock-api v0.0.1
   https://github.com/syakoo/todo-mock-api#readme
   Released under the MIT License.
 */
