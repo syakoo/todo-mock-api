@@ -41,7 +41,7 @@ export const restApi = {
         const res = await fetch('/api/users/register', {
           method: 'post',
           headers: {
-            'Content-Types': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
         });
@@ -60,7 +60,7 @@ export const restApi = {
         const res = await fetch('/api/users/login', {
           method: 'post',
           headers: {
-            'Content-Types': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
         });
@@ -79,7 +79,7 @@ export const restApi = {
         const res = await fetch('/api/users/logout', {
           method: 'post',
           headers: {
-            Authorizations: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         const body = await res.json();
@@ -97,7 +97,7 @@ export const restApi = {
       const res = await fetch('/api/tasks', {
         method: 'get',
         headers: {
-          Authorizations: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       const body = await res.json();
@@ -114,8 +114,8 @@ export const restApi = {
       const res = await fetch('/api/tasks', {
         method: 'post',
         headers: {
-          Authorizations: `Bearer ${token}`,
-          'Content-Types': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
       });
@@ -134,7 +134,7 @@ export const restApi = {
           const res = await fetch(`/api/tasks/${taskId}`, {
             method: 'get',
             headers: {
-              Authorizations: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           const body = await res.json();
@@ -151,8 +151,8 @@ export const restApi = {
           const res = await fetch(`/api/tasks/${taskId}`, {
             method: 'patch',
             headers: {
-              Authorizations: `Bearer ${token}`,
-              'Content-Types': 'application/json',
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(payload),
           });
@@ -169,7 +169,7 @@ export const restApi = {
           const res = await fetch(`/api/tasks/${taskId}`, {
             method: 'delete',
             headers: {
-              Authorizations: `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           const body = await res.json();
@@ -187,7 +187,7 @@ export const restApi = {
             const res = await fetch(`/api/tasks/${taskId}/completion`, {
               method: 'put',
               headers: {
-                Authorizations: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
               },
             });
             const body = await res.json();
@@ -203,7 +203,7 @@ export const restApi = {
             const res = await fetch(`/api/tasks/${taskId}/completion`, {
               method: 'delete',
               headers: {
-                Authorizations: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
               },
             });
             const body = await res.json();

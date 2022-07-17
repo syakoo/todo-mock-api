@@ -34,7 +34,7 @@ const createTasksHandlers: RestHandlersCreator = (globalStorage) => {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
 
@@ -62,7 +62,7 @@ const createTasksHandlers: RestHandlersCreator = (globalStorage) => {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
 
@@ -127,7 +127,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
         taskFeature.assertValidTaskId(req.params.taskId);
@@ -157,7 +157,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
         taskFeature.assertValidTaskId(req.params.taskId);
@@ -194,7 +194,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
         taskFeature.assertValidTaskId(req.params.taskId);
@@ -244,7 +244,7 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
         taskFeature.assertValidTaskId(req.params.taskId);
@@ -276,7 +276,7 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
         const user = await tokenFeature.getUserFromToken({
           state: globalStorage.globalState,
           input: {
-            maybeBearerToken: req.headers.get('Authentication'),
+            maybeBearerToken: req.headers.get('Authorization'),
           },
         });
         taskFeature.assertValidTaskId(req.params.taskId);
