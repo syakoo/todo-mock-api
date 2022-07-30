@@ -25,12 +25,10 @@ export interface ApiTasksId {
             title?: string;
             detail?: string;
         };
-        resBody: taskFeature.Task;
+        resBody: null;
     };
     delete: {
-        resBody: {
-            success: boolean;
-        };
+        resBody: null;
     };
 }
 export interface ApiTasksIdCompletion {
@@ -38,10 +36,10 @@ export interface ApiTasksIdCompletion {
         taskId: string;
     };
     put: {
-        resBody: taskFeature.Task;
+        resBody: null;
     };
     delete: {
-        resBody: taskFeature.Task;
+        resBody: null;
     };
 }
 export declare function createTaskRestHandlers(globalStorage: GlobalStorage): import("msw").RestHandler<import("msw/lib/glossary-58eca5a8").M<DefaultBodyType>>[];

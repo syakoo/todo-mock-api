@@ -6,9 +6,7 @@ export interface ApiUsersRegister {
             username: string;
             password: string;
         };
-        resBody: {
-            success: boolean;
-        };
+        resBody: null;
     };
 }
 export interface ApiUsersLogin {
@@ -18,7 +16,6 @@ export interface ApiUsersLogin {
             password: string;
         };
         resBody: {
-            success: true;
             token: string;
         };
     };
@@ -28,9 +25,7 @@ export interface ApiUsersLogout {
         reqHeaders: {
             Authorization: string;
         };
-        resBody: {
-            success: boolean;
-        };
+        resBody: null;
     };
 }
 export declare function createUserRestHandlers(globalStorage: GlobalStorage): import("msw").RestHandler<import("msw/lib/glossary-58eca5a8").M<DefaultBodyType>>[];

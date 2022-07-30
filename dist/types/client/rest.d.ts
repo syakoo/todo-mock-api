@@ -1,7 +1,7 @@
-import type { ApiHealth, ApiTasks, ApiUsersRegister, ApiUsersLogin, ApiUsersLogout, HTTPErrorResponseBody, ApiTasksId, ApiTasksIdCompletion } from "../handlers/rest";
+import type { ApiHealth, ApiTasks, ApiUsersRegister, ApiUsersLogin, ApiUsersLogout, AppApiError, ApiTasksId, ApiTasksIdCompletion } from "../handlers/rest";
 export declare type ApiResponse<SuccessResponseBody> = Promise<{
     ok: false;
-    body: HTTPErrorResponseBody;
+    body: AppApiError;
 } | {
     ok: true;
     body: SuccessResponseBody;
