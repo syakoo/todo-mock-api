@@ -26,16 +26,9 @@ npx msw init <PUBLIC_DIR> [options]
 あとはプロジェクトのルートなどで worker を実行することでブラウザ用の Mock API が起動されます:
 
 ```tsx
-// 概略
 import { startWorker } from '@syakoo/todo-mock-api';
 
 startWorker();
-
-createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 ```
 
 ## API ドキュメント
@@ -101,17 +94,69 @@ export interface ApiTasksId {
       title?: string;
       detail?: string;
     };
-    resBody: taskFeature.Task;
+    resBody: null;
   };
   delete: {
-    resBody: {
-      success: boolean;
-    };
+    resBody: null;
   };
 }
 ```
 
-エラー時のレスポンスボディの型は `HTTPErrorResponseBody` から得ることができ、エラーコードは `AppErrorCode` になっています。
+エラー時のレスポンスボディの型は `AppApiError` から得ることができ、エラーコードは `AppApiErrorCode` になっています。
 
 ### fetch 関数の提供
 
+技術を素振りするにあたっていちいち仕様書見て `fetch` 関数使って実装するのは面倒だと思います。
+そのために、ここでは `fetch` 関数も提供しています。
+
+`restApi` は REST API のクライアントであり、次のようにして使用することができます:
+
+```ts
+import { client } from '@syakoo/todo-mock-api';
+
+// [POST] /api/users/register
+await client.restApi.users.register.post({
+  username: 'user',
+  password: 'pass',
+});
+
+// [POST] /api/users/logout
+await client.restApi.users.logout.post('token');
+
+// [GET] /api/tasks
+await client.restApi.tasks.get('token');
+
+// [POST] /api/tasks
+await client.restApi.tasks.post(
+  {
+    title: 'title',
+    detail: 'detail',
+  },
+  'token'
+);
+
+// [DELETE] /api/tasks/:taskId
+await client.restApi.tasks._taskId('taskId').delete('token');
+
+// [PUT] /api/tasks/:taskId/completion
+await client.restApi.tasks._taskId('taskId').completion.put('token');
+```
+
+返り値はプロパティ `ok` と `body` を持ったオブジェクトであり、`ok` が true であれば成功時のレスポンス、false であればエラー時のレスポンスボディが `body` に格納されます:
+
+```ts
+type Res =
+  | {
+      ok: true;
+      body: ...; // 成功時のレスポンスボディ
+    }
+  | {
+      ok: false;
+      body: AppApiError;
+    };
+```
+
+## 注意事項
+
+- 突然変更が起こる可能性があります。
+- 素振り以外の用途では基本使わないほうがいいでしょう。
