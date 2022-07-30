@@ -3,8 +3,8 @@ export * as client from './client';
 
 export type { GlobalState } from './core/globalState';
 export type {
-  AppErrorCode,
-  HTTPErrorResponseBody,
+  AppApiErrorCode,
+  AppApiError,
   ApiHealth,
   ApiUsersLogin,
   ApiUsersLogout,

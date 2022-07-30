@@ -5,9 +5,7 @@ import { createRestHandlers } from './handlers/rest';
 
 import type { GlobalStoreOption } from './core/globalState/globalStorage';
 
-export interface WorkerOption extends GlobalStoreOption {
-  type?: 'rest';
-}
+export type WorkerOption = GlobalStoreOption;
 
 export const startWorker = (option?: WorkerOption) => {
   const globalStorage = createGlobalStorage(option);
