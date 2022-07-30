@@ -16,44 +16,36 @@ export interface ApiUsersRegister {
       username: string;
       password: string;
     };
-    resBody: {
-      success: boolean;
-    };
+    resBody: null;
   };
 }
 
 const createUsersRegisterHandlers: RestHandlersCreator = (globalStorage) => {
   return [
-    rest.post<
-      ApiUsersRegister['post']['reqBody'],
-      PathParams,
-      ApiUsersRegister['post']['resBody'] | AppApiError
-    >('/api/users/register', async (req, res, ctx) => {
-      try {
-        userFeature.assertValidUserName(req.body.username);
-        userFeature.assertValidPassword(req.body.password);
-        const userInfo = {
-          username: req.body.username,
-          password: req.body.password,
-        };
+    rest.post<ApiUsersRegister['post']['reqBody'], PathParams, AppApiError>(
+      '/api/users/register',
+      async (req, res, ctx) => {
+        try {
+          userFeature.assertValidUserName(req.body.username);
+          userFeature.assertValidPassword(req.body.password);
+          const userInfo = {
+            username: req.body.username,
+            password: req.body.password,
+          };
 
-        const result = await userFeature.registerUser({
-          input: userInfo,
-          state: globalStorage.globalState,
-        });
-        globalStorage.updateGlobalState(result);
+          const result = await userFeature.registerUser({
+            input: userInfo,
+            state: globalStorage.globalState,
+          });
+          globalStorage.updateGlobalState(result);
 
-        return res(
-          ctx.status(200),
-          ctx.json({
-            success: true,
-          })
-        );
-      } catch (error) {
-        const response = error2HttpErrorResponse(error);
-        return res(ctx.status(response.status), ctx.json(response.body));
+          return res(ctx.status(200));
+        } catch (error) {
+          const response = error2HttpErrorResponse(error);
+          return res(ctx.status(response.status), ctx.json(response.body));
+        }
       }
-    }),
+    ),
   ];
 };
 
@@ -66,7 +58,6 @@ export interface ApiUsersLogin {
       password: string;
     };
     resBody: {
-      success: true;
       token: string;
     };
   };
@@ -96,7 +87,6 @@ const createUsersLoginHandlers: RestHandlersCreator = (globalStorage) => {
         return res(
           ctx.status(200),
           ctx.json({
-            success: true,
             token: result.outputs.token,
           })
         );
@@ -115,42 +105,34 @@ export interface ApiUsersLogout {
     reqHeaders: {
       Authorization: string;
     };
-    resBody: {
-      success: boolean;
-    };
+    resBody: null;
   };
 }
 
 const createUsersLogoutHandlers: RestHandlersCreator = (globalStorage) => {
   return [
-    rest.post<
-      DefaultBodyType,
-      PathParams,
-      ApiUsersLogout['post']['resBody'] | AppApiError
-    >('/api/users/logout', async (req, res, ctx) => {
-      try {
-        const user = await tokenFeature.getUserFromToken({
-          input: { maybeBearerToken: req.headers.get('Authorization') },
-          state: globalStorage.globalState,
-        });
+    rest.post<DefaultBodyType, PathParams, AppApiError>(
+      '/api/users/logout',
+      async (req, res, ctx) => {
+        try {
+          const user = await tokenFeature.getUserFromToken({
+            input: { maybeBearerToken: req.headers.get('Authorization') },
+            state: globalStorage.globalState,
+          });
 
-        const result = await userFeature.logoutUser({
-          input: { user },
-          state: globalStorage.globalState,
-        });
-        globalStorage.updateGlobalState(result);
+          const result = await userFeature.logoutUser({
+            input: { user },
+            state: globalStorage.globalState,
+          });
+          globalStorage.updateGlobalState(result);
 
-        return res(
-          ctx.status(200),
-          ctx.json({
-            success: true,
-          })
-        );
-      } catch (error) {
-        const response = error2HttpErrorResponse(error);
-        return res(ctx.status(response.status), ctx.json(response.body));
+          return res(ctx.status(200));
+        } catch (error) {
+          const response = error2HttpErrorResponse(error);
+          return res(ctx.status(response.status), ctx.json(response.body));
+        }
       }
-    }),
+    ),
   ];
 };
 

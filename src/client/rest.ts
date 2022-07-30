@@ -45,7 +45,7 @@ export const restApi = {
           },
           body: JSON.stringify(payload),
         });
-        const body = await res.json();
+        const body = res.ok ? null : await res.json();
 
         return {
           ok: res.ok,
@@ -82,7 +82,7 @@ export const restApi = {
             Authorization: `Bearer ${token}`,
           },
         });
-        const body = await res.json();
+        const body = res.ok ? null : await res.json();
 
         return {
           ok: res.ok,
@@ -156,7 +156,7 @@ export const restApi = {
             },
             body: JSON.stringify(payload),
           });
-          const body = await res.json();
+          const body = res.ok ? null : await res.json();
 
           return {
             ok: res.ok,
@@ -172,7 +172,7 @@ export const restApi = {
               Authorization: `Bearer ${token}`,
             },
           });
-          const body = await res.json();
+          const body = res.ok ? null : await res.json();
 
           return {
             ok: res.ok,
@@ -190,7 +190,7 @@ export const restApi = {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const body = await res.json();
+            const body = res.ok ? null : await res.json();
 
             return {
               ok: res.ok,
@@ -206,7 +206,7 @@ export const restApi = {
                 Authorization: `Bearer ${token}`,
               },
             });
-            const body = await res.json();
+            const body = res.ok ? null : await res.json();
 
             return {
               ok: res.ok,

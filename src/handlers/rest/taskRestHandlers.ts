@@ -107,12 +107,10 @@ export interface ApiTasksId {
       title?: string;
       detail?: string;
     };
-    resBody: taskFeature.Task;
+    resBody: null;
   };
   delete: {
-    resBody: {
-      success: boolean;
-    };
+    resBody: null;
   };
 }
 
@@ -175,10 +173,9 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
             incomingPartialTask,
           },
         });
-        const task = result.output.task;
 
         globalStorage.updateGlobalState(result.state);
-        return res(ctx.status(200), ctx.json(task));
+        return res(ctx.status(200));
       } catch (error) {
         const response = error2HttpErrorResponse(error);
         return res(ctx.status(response.status), ctx.json(response.body));
@@ -208,7 +205,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
         });
 
         globalStorage.updateGlobalState(result.state);
-        return res(ctx.status(200), ctx.json({ success: true }));
+        return res(ctx.status(200));
       } catch (error) {
         const response = error2HttpErrorResponse(error);
         return res(ctx.status(response.status), ctx.json(response.body));
@@ -224,10 +221,10 @@ export interface ApiTasksIdCompletion {
     taskId: string;
   };
   put: {
-    resBody: taskFeature.Task;
+    resBody: null;
   };
   delete: {
-    resBody: taskFeature.Task;
+    resBody: null;
   };
 }
 
@@ -257,10 +254,9 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
             isComplete: true,
           },
         });
-        const task = result.output.task;
 
         globalStorage.updateGlobalState(result.state);
-        return res(ctx.status(200), ctx.json(task));
+        return res(ctx.status(200));
       } catch (error) {
         const response = error2HttpErrorResponse(error);
         return res(ctx.status(response.status), ctx.json(response.body));
@@ -289,10 +285,9 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
             isComplete: false,
           },
         });
-        const task = result.output.task;
 
         globalStorage.updateGlobalState(result.state);
-        return res(ctx.status(200), ctx.json(task));
+        return res(ctx.status(200));
       } catch (error) {
         const response = error2HttpErrorResponse(error);
         return res(ctx.status(response.status), ctx.json(response.body));

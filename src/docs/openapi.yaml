@@ -38,10 +38,6 @@ paths:
       responses:
         '200':
           description: ユーザーの登録に成功しました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/success'
         '409':
           description: 同じ名前のユーザーが既に存在します
           content:
@@ -99,10 +95,6 @@ paths:
       responses:
         '200':
           description: ログアウトに成功しました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/success'
         '401':
           $ref: '#/components/responses/DefaultUnauthorizedErrorResponse'
         '400':
@@ -191,10 +183,6 @@ paths:
       responses:
         '200':
           description: 指定した id のタスクを更新できました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/TokenOrTaskInvalidErrorResponse'
         '401':
@@ -210,10 +198,6 @@ paths:
       responses:
         '200':
           description: 指定した id のタスクを削除できました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/success'
         '400':
           $ref: '#/components/responses/TokenInvalidResponse'
         '401':
@@ -238,10 +222,6 @@ paths:
       responses:
         '200':
           description: 指定した id のタスクを完了状態にしました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/TokenInvalidResponse'
         '401':
@@ -257,10 +237,6 @@ paths:
       responses:
         '200':
           description: 指定した id のタスクを完了状態を解除しました
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/TokenInvalidResponse'
         '401':
@@ -338,10 +314,6 @@ components:
       description: 'ログイン成功時のレスポンス'
       type: object
       properties:
-        success:
-          description: 成功フラグ
-          example: true
-          type: boolean
         token:
           $ref: '#/components/schemas/token'
     Error:
