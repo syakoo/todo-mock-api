@@ -3,7 +3,7 @@ import { rest, type DefaultBodyType, type PathParams } from 'msw';
 import * as taskFeature from '~/core/features/task';
 import * as tokenFeature from '~/core/features/token';
 
-import { error2HttpErrorResponse, type HTTPErrorResponseBody } from './error';
+import { error2HttpErrorResponse, type AppApiError } from './error';
 
 import type { RestHandlersCreator } from './types';
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
@@ -28,7 +28,7 @@ const createTasksHandlers: RestHandlersCreator = (globalStorage) => {
     rest.get<
       DefaultBodyType,
       PathParams,
-      ApiTasks['get']['resBody'] | HTTPErrorResponseBody
+      ApiTasks['get']['resBody'] | AppApiError
     >('/api/tasks', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -56,7 +56,7 @@ const createTasksHandlers: RestHandlersCreator = (globalStorage) => {
     rest.post<
       ApiTasks['post']['reqBody'],
       PathParams,
-      ApiTasks['post']['resBody'] | HTTPErrorResponseBody
+      ApiTasks['post']['resBody'] | AppApiError
     >('/api/tasks', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -121,7 +121,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
     rest.get<
       DefaultBodyType,
       ApiTasksId['params'],
-      ApiTasksId['get']['resBody'] | HTTPErrorResponseBody
+      ApiTasksId['get']['resBody'] | AppApiError
     >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -151,7 +151,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
     rest.patch<
       ApiTasksId['patch']['reqBody'],
       ApiTasksId['params'],
-      ApiTasksId['patch']['resBody'] | HTTPErrorResponseBody
+      ApiTasksId['patch']['resBody'] | AppApiError
     >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -188,7 +188,7 @@ const createTasksIdHandlers: RestHandlersCreator = (globalStorage) => {
     rest.delete<
       DefaultBodyType,
       ApiTasksId['params'],
-      ApiTasksId['delete']['resBody'] | HTTPErrorResponseBody
+      ApiTasksId['delete']['resBody'] | AppApiError
     >('/api/tasks/:taskId', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -238,7 +238,7 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
     rest.put<
       DefaultBodyType,
       ApiTasksIdCompletion['params'],
-      ApiTasksIdCompletion['put']['resBody'] | HTTPErrorResponseBody
+      ApiTasksIdCompletion['put']['resBody'] | AppApiError
     >('/api/tasks/:taskId/completion', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({
@@ -270,7 +270,7 @@ const createTasksIdCompletionHandlers: RestHandlersCreator = (
     rest.delete<
       DefaultBodyType,
       ApiTasksIdCompletion['params'],
-      ApiTasksIdCompletion['delete']['resBody'] | HTTPErrorResponseBody
+      ApiTasksIdCompletion['delete']['resBody'] | AppApiError
     >('/api/tasks/:taskId/completion', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({

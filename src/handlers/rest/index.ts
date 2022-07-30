@@ -10,4 +10,4 @@ export type {
   ApiTasksId,
   ApiTasksIdCompletion,
 } from './taskRestHandlers';
-export type { AppErrorCode, HTTPErrorResponseBody } from './error';
+export type { AppApiErrorCode, AppApiError } from './error';

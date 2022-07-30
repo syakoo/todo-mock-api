@@ -3,7 +3,7 @@ import { type PathParams, rest, DefaultBodyType } from 'msw';
 import * as tokenFeature from '~/core/features/token';
 import * as userFeature from '~/core/features/user';
 
-import { error2HttpErrorResponse, HTTPErrorResponseBody } from './error';
+import { error2HttpErrorResponse, AppApiError } from './error';
 
 import type { RestHandlersCreator } from './types';
 import type { GlobalStorage } from '~/core/globalState/globalStorage';
@@ -27,7 +27,7 @@ const createUsersRegisterHandlers: RestHandlersCreator = (globalStorage) => {
     rest.post<
       ApiUsersRegister['post']['reqBody'],
       PathParams,
-      ApiUsersRegister['post']['resBody'] | HTTPErrorResponseBody
+      ApiUsersRegister['post']['resBody'] | AppApiError
     >('/api/users/register', async (req, res, ctx) => {
       try {
         userFeature.assertValidUserName(req.body.username);
@@ -77,7 +77,7 @@ const createUsersLoginHandlers: RestHandlersCreator = (globalStorage) => {
     rest.post<
       ApiUsersLogin['post']['reqBody'],
       PathParams,
-      ApiUsersLogin['post']['resBody'] | HTTPErrorResponseBody
+      ApiUsersLogin['post']['resBody'] | AppApiError
     >('/api/users/login', async (req, res, ctx) => {
       try {
         userFeature.assertValidUserName(req.body.username);
@@ -126,7 +126,7 @@ const createUsersLogoutHandlers: RestHandlersCreator = (globalStorage) => {
     rest.post<
       DefaultBodyType,
       PathParams,
-      ApiUsersLogout['post']['resBody'] | HTTPErrorResponseBody
+      ApiUsersLogout['post']['resBody'] | AppApiError
     >('/api/users/logout', async (req, res, ctx) => {
       try {
         const user = await tokenFeature.getUserFromToken({

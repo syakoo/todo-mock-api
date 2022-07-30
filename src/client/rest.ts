@@ -4,7 +4,7 @@ import type {
   ApiUsersRegister,
   ApiUsersLogin,
   ApiUsersLogout,
-  HTTPErrorResponseBody,
+  AppApiError,
   ApiTasksId,
   ApiTasksIdCompletion,
 } from '~/handlers/rest';
@@ -12,7 +12,7 @@ import type {
 export type ApiResponse<SuccessResponseBody> = Promise<
   | {
       ok: false;
-      body: HTTPErrorResponseBody;
+      body: AppApiError;
     }
   | {
       ok: true;
