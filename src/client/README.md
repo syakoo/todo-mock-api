@@ -1,4 +1,5 @@
 <!-- DMDG BEGIN -->
+
 ```mermaid
 flowchart LR
 
@@ -13,4 +14,5 @@ end
 style 2 fill:lime,color:black
 style 3 fill:lime,color:black
 ```
+
 <!-- DMDG END -->
