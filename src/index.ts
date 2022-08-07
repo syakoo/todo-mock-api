@@ -1,4 +1,5 @@
 export { startWorker, type WorkerOption } from './worker';
+export { createServer, type ServerOption } from './server';
 export * as client from './client';
 
 export type { GlobalState } from './core/globalState';
