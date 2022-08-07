@@ -16,6 +16,8 @@
     "fix": "run-s fix:*",
     "fix:eslint": "npm run lint:eslint -- --fix",
     "fix:prettier": "npm run lint:prettier -- --write",
+    "dmdg": "dmdg draw src/client src/handlers/rest src/core/features",
+    "prebuild": "npm run dmdg",
     "build": "rimraf dist && rollup -c",
     "build:docs": "node ./scripts/generateAPIdocs.js"
   },
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.3",
+    "@syakoo/dmdg": "^0.1.6",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
