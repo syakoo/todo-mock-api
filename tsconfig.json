@@ -8,7 +8,7 @@
     "lib": ["ESNext", "es2016", "dom"],
     "types": ["node"],
     "outDir": "dist",
-    "baseUrl": "",
+    "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     },
